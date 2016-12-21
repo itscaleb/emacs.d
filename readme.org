@@ -4,6 +4,8 @@
 This org-file contains my emacs configuration.
 
 =init.el= simply uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this file.
+
+I use =customize= for some settings, mostly some org settings. Those are in =./emacs-custom.el= if you're interested.
 * Customize Settings
 I want my customization information going to a file other than the emacs config file.
 #+BEGIN_SRC emacs-lisp
@@ -30,9 +32,11 @@ This adds melpa, loads packages, and installs all the packages I want.
 #+END_SRC
 * Initialization
 ** Global Settings
+Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers.
 #+BEGIN_SRC emacs-lisp
   (ivy-mode 1) ; tyring out ivy
   (setf indent-tabs-mode nil)
+  (global-auto-revert-mode)
 #+END_SRC
 ** Global Key Bindings
 #+BEGIN_SRC emacs-lisp
