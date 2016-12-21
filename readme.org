@@ -43,4 +43,5 @@ This adds melpa, loads packages, and installs all the packages I want.
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
   (global-set-key "\C-cj" 'org-clock-jump-to-current-clock)
+  (global-set-key "\C-s" 'swiper)
 #+END_SRC
