@@ -1,0 +1,17 @@
+#+AUTHOR: Caleb Gossler
+#+TITLE Emacs Configuration
+* My Emacs Configuration
+This org-file contains my configuration. It uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this file using =org-babel-tangle=.
+* Package Configuration
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+#+END_SRC
+** Add Melpa to Package Archives
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/"))
+#+END_SRC
+** Load the packages and activatate them
+#+BEGIN_SRC emacs-lisp
+  (package-initialize)
+#+END_SRC
