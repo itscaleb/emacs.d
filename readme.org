@@ -32,6 +32,7 @@ This adds melpa, loads packages, and installs all the packages I want.
 ** Global Settings
 #+BEGIN_SRC emacs-lisp
   (ivy-mode 1) ; tyring out ivy
+  (setf indent-tabs-mode nil)
 #+END_SRC
 ** Global Key Bindings
 #+BEGIN_SRC emacs-lisp
