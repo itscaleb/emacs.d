@@ -1,9 +1,7 @@
 #+AUTHOR: Caleb Gossler
-#+TITLE Emacs Configuration
-* My Emacs Configuration
-This org-file contains my emacs configuration.
-
-=init.el= simply uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this file.
+#+TITLE: Emacs Configuration
+* Emacs Configuration
+My =init.el= file uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this README. In other words, this README that you're looking at now is my Emacs configuration.
 
 I use =customize= for some settings, mostly some org settings. Those are in =./emacs-custom.el= if you're interested.
 * Customize Settings
@@ -19,16 +17,11 @@ This adds melpa, loads packages, and installs all the packages I want.
                '("melpa" . "https://melpa.org/packages/"))
   (package-initialize)
 
-  (defun install-packages (&rest pkgs)
-    (mapc
-     (lambda (pkg)
-       (package-install pkg))
-     pkgs))
+  (setf package-selected-packages '(magit
+                                    paredit
+                                    swiper))
 
-  (install-packages 'magit
-                    'paredit
-                    'swiper ; trying ivy out
-                    )
+  (package-install-selected-packages)
 #+END_SRC
 * Initialization
 ** Global Settings
@@ -48,4 +41,12 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
   (global-set-key "\C-cb" 'org-iswitchb)
   (global-set-key "\C-cj" 'org-clock-jump-to-current-clock)
   (global-set-key "\C-s" 'swiper)
+#+END_SRC
+* Org-mode Configuration
+Here we go...
+#+BEGIN_SRC emacs-lisp
+  (load "org-habit")
+  (setf org-agenda-files '("~/org/agenda")
+        org-startup-indented t
+        org-agenda-span 'day)
 #+END_SRC
