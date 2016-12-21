@@ -43,10 +43,25 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
   (global-set-key "\C-s" 'swiper)
 #+END_SRC
 * Org-mode Configuration
+** Some Basics
 Here we go...
 #+BEGIN_SRC emacs-lisp
   (load "org-habit")
   (setf org-agenda-files '("~/org/agenda")
         org-startup-indented t
-        org-agenda-span 'day)
+        org-agenda-span 'day
+        org-log-done 'note)
+#+END_SRC
+** Configure Text Searching of my Notes
+If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in notes you save in org files. It works very similar to searching through notes in something like evernote. I keep all my notes in =~/org/notes= and make them all searchable here without adding them as agenda files. Pretty slick.
+
+=\C-a s= brings up the search prompt in the minibuffer.
+#+BEGIN_SRC emacs-lisp
+  (setf org-agenda-text-search-extra-files (directory-files-recursively "~/org/notes/" "\.org$"))
+#+END_SRC
+** Todo Keywords
+Setting up keyword workflows.
+#+BEGIN_SRC emacs-lisp
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "|" "DONE(d)")))
 #+END_SRC
