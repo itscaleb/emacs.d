@@ -1,17 +1,39 @@
 #+AUTHOR: Caleb Gossler
 #+TITLE Emacs Configuration
 * My Emacs Configuration
-This org-file contains my configuration. It uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this file using =org-babel-tangle=.
+This org-file contains my emacs configuration.
+
+=init.el= simply uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this file.
+* Customize Settings
+I want my customization information going to a file other than the emacs config file.
+#+BEGIN_SRC emacs-lisp
+  (setf custom-file "~/.emacs.d/emacs-custom.el")
+#+END_SRC
 * Package Configuration
+This adds melpa, loads packages, and installs all the packages I want.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-#+END_SRC
-** Add Melpa to Package Archives
-#+BEGIN_SRC emacs-lisp
   (add-to-list 'package-archives
                '("melpa" . "https://melpa.org/packages/"))
-#+END_SRC
-** Load the packages and activatate them
-#+BEGIN_SRC emacs-lisp
   (package-initialize)
+
+  (defun install-packages (&rest pkgs)
+    (mapc
+     (lambda (pkg)
+       (package-install pkg))
+     pkgs))
+
+  (install-packages 'magit
+                    'paredit)
+#+END_SRC
+* Initialization
+** Global Key Bindings
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-cb" 'org-iswitchb)
+  (global-set-key "\C-cj" 'org-clock-jump-to-current-clock)
 #+END_SRC
