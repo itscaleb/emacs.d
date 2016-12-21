@@ -24,9 +24,15 @@ This adds melpa, loads packages, and installs all the packages I want.
      pkgs))
 
   (install-packages 'magit
-                    'paredit)
+                    'paredit
+                    'swiper ; trying ivy out
+                    )
 #+END_SRC
 * Initialization
+** Global Settings
+#+BEGIN_SRC emacs-lisp
+  (ivy-mode 1) ; tyring out ivy
+#+END_SRC
 ** Global Key Bindings
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x g") 'magit-status)
