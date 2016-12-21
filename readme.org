@@ -19,7 +19,9 @@ This adds melpa, loads packages, and installs all the packages I want.
 
   (setf package-selected-packages '(magit
                                     paredit
-                                    swiper))
+                                    swiper
+                                    zenburn-theme
+                                    spaceline))
 
   (package-install-selected-packages)
 #+END_SRC
@@ -27,8 +29,10 @@ This adds melpa, loads packages, and installs all the packages I want.
 ** Global Settings
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers.
 #+BEGIN_SRC emacs-lisp
+  (global-hl-line-mode 1)
   (ivy-mode 1) ; tyring out ivy
-  (setf indent-tabs-mode nil)
+  (setf indent-tabs-mode nil
+        initial-buffer-choice "~/org/splash.org")
   (global-auto-revert-mode)
 #+END_SRC
 ** Global Key Bindings
@@ -41,6 +45,16 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
   (global-set-key "\C-cb" 'org-iswitchb)
   (global-set-key "\C-cj" 'org-clock-jump-to-current-clock)
   (global-set-key "\C-s" 'swiper)
+#+END_SRC
+** Making Things Look Nice
+#+BEGIN_SRC emacs-lisp
+  (require 'spaceline-config)
+  (setf powerline-default-separator 'wave
+        powerline-height 20)
+  (when (eq system-type 'darwin) ; fix for spaceline on mac
+    (setq ns-use-srgb-colorspace nil))
+  (spaceline-spacemacs-theme)
+    (load-theme 'zenburn t)
 #+END_SRC
 * Org-mode Configuration
 ** Some Basics
