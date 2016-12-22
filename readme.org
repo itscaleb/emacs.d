@@ -1,6 +1,5 @@
 #+AUTHOR: Caleb Gossler
 #+TITLE: Emacs Configuration
-* Emacs Configuration
 My =init.el= file uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this README. In other words, this README that you're looking at now is my Emacs configuration.
 
 I use =customize= for some settings, mostly some org settings. Those are in =./emacs-custom.el= if you're interested.
@@ -56,6 +55,11 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
     (setq ns-use-srgb-colorspace nil))
   (spaceline-spacemacs-theme)
     (load-theme 'zenburn t)
+#+END_SRC
+Turn the clock on in the mode-line
+#+BEGIN_SRC emacs-lisp
+(setf display-time-default-load-average nil)
+(display-time-mode)
 #+END_SRC
 * Org-mode Configuration
 ** Some Basics
