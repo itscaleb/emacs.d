@@ -99,3 +99,8 @@ Dired-X adds some nice features, one of them is doing file operations async. A m
             (lambda ()
               (load "dired-x")))
 #+END_SRC
+* EasyPG
+Use gpg2 instead of gpg
+#+BEGIN_SRC emacs-lisp
+  (setf epg-gpg-program "gpg2")
+#+END_SRC
