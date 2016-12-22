@@ -6,3 +6,5 @@ auto-save-list/
 .\#*
 elpa/
 /tramp
+emms/*
+!emms/streams
