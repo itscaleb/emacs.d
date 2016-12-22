@@ -20,11 +20,12 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
   (when (not package-archive-contents)
       (package-refresh-contents))
 
-  (setf package-selected-packages '(magit
-                                    paredit
-                                    swiper
-                                    zenburn-theme
-                                    spaceline))
+    (setf package-selected-packages '(magit
+                                      paredit
+                                      swiper
+                                      zenburn-theme
+                                      spaceline
+                                      emms))
 
   (package-install-selected-packages)
 #+END_SRC
@@ -101,6 +102,15 @@ Dired-X adds some nice features, one of them is doing file operations async. A m
   (add-hook 'dired-load-hook
             (lambda ()
               (load "dired-x")))
+#+END_SRC
+* Emacs Multimedia System (EMMS)
+It's very convenient to be able to control music from within Emacs. I use it mostly to play internet audio streams.
+#+BEGIN_SRC emacs-lisp
+  (require 'emms-setup)
+  (emms-all)
+  (emms-default-players)
+  (require 'emms-history)
+  (emms-history-load)
 #+END_SRC
 * EasyPG
 Use gpg2 instead of gpg
