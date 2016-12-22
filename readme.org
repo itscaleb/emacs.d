@@ -70,6 +70,7 @@ This sets up japanese input within emacs. You probably don't need this if you ha
   (load-theme 'zenburn t)
   (show-paren-mode t)
   (menu-bar-mode -1)
+  (tool-bar-mode -1)
 #+END_SRC
 Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose track of time otherwise! By default it also shows the load-average, but I'm not really worried about that so I turned it off.
 #+BEGIN_SRC emacs-lisp
