@@ -16,7 +16,8 @@ This adds melpa, loads packages, and installs all the packages I want.
   (add-to-list 'package-archives
                '("melpa" . "https://melpa.org/packages/"))
   (package-initialize)
-
+  (when (not package-archive-contents)
+      (package-refresh-contents))
   (setf package-selected-packages '(magit
                                     paredit
                                     swiper
