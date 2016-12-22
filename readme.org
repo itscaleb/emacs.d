@@ -2,21 +2,24 @@
 #+TITLE: Emacs Configuration
 My =init.el= file uses =org-babel-load-file= to load the Emacs Lisp source code blocks in this README. In other words, this README that you're looking at now is my Emacs configuration.
 
-I use =customize= for some settings, mostly some org settings. Those are in =./emacs-custom.el= if you're interested.
-* Customize Settings
-I want my customization information going to a file other than the emacs config file.
+If the variables I'm setting aren't clear what they're used for, use =\C-h v= and type it in to read the docstring. I'll make sure to mention the interesting parts though.
+* Customize
+I want my customization information going to a file other than the emacs config file. I don't like the constant churn in my main config file when I make a change through customize.
 #+BEGIN_SRC emacs-lisp
   (setf custom-file "~/.emacs.d/emacs-custom.el")
 #+END_SRC
-* Package Configuration
-This adds melpa, loads packages, and installs all the packages I want.
+* Package
+This adds melpa, loads packages, and installs all the packages I want. =package-selected-packages= is new in Emacs 25 and makes it easy to get all your packages installed on new computers.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
   (add-to-list 'package-archives
                '("melpa" . "https://melpa.org/packages/"))
+
   (package-initialize)
+
   (when (not package-archive-contents)
       (package-refresh-contents))
+
   (setf package-selected-packages '(magit
                                     paredit
                                     swiper
@@ -25,7 +28,7 @@ This adds melpa, loads packages, and installs all the packages I want.
 
   (package-install-selected-packages)
 #+END_SRC
-* Initialization
+* Emacs
 ** Global Settings
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers.
 #+BEGIN_SRC emacs-lisp
@@ -52,16 +55,16 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
   (setf powerline-default-separator 'wave
         powerline-height 20)
   (when (eq system-type 'darwin) ; fix for spaceline on mac
-    (setq ns-use-srgb-colorspace nil))
+    (setf ns-use-srgb-colorspace nil))
   (spaceline-spacemacs-theme)
-    (load-theme 'zenburn t)
+  (load-theme 'zenburn t)
 #+END_SRC
-Turn the clock on in the mode-line
+Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose track of time otherwise! By default it also shows the load-average, but I'm not really worried about that so I turned it off.
 #+BEGIN_SRC emacs-lisp
 (setf display-time-default-load-average nil)
 (display-time-mode)
 #+END_SRC
-* Org-mode Configuration
+* Org-mode
 ** Some Basics
 Here we go...
 #+BEGIN_SRC emacs-lisp
@@ -72,16 +75,16 @@ Here we go...
         org-log-done 'note)
 #+END_SRC
 ** Configure Text Searching of my Notes
-If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in notes you save in org files. It works very similar to searching through notes in something like evernote. I keep all my notes in =~/org/notes= and make them all searchable here without adding them as agenda files. Pretty slick.
+If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in org files other than your agenda files. This enables evernote-like search features in Emacs!! I set it to include all org files (recursively) in my =~/org/notes/= directory.
 
-=\C-a s= brings up the search prompt in the minibuffer.
+Note: =\C-a s= brings up the search prompt in the minibuffer.
 #+BEGIN_SRC emacs-lisp
   (setf org-agenda-text-search-extra-files (directory-files-recursively "~/org/notes/" "\.org$"))
 #+END_SRC
 ** Todo Keywords
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
-  (setq org-todo-keywords
+  (setf org-todo-keywords
         '((sequence "TODO(t)" "|" "DONE(d)")))
 #+END_SRC
 * Dired
@@ -93,7 +96,7 @@ Dired renders a buffer that it builds off of a call to =ls=. Here we can customi
         dired-dwim-target t)
 #+END_SRC
 ** Dired-X
-Dired-X adds some nice features, one of them is doing file operations async. A must have for doing large/over-the-network copies
+Dired-X adds some nice features, one of them is doing file operations async. A must have for doing large/over-the-network file operations
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-load-hook
             (lambda ()
