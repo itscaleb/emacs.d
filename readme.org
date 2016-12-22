@@ -84,3 +84,18 @@ Setting up keyword workflows.
   (setq org-todo-keywords
         '((sequence "TODO(t)" "|" "DONE(d)")))
 #+END_SRC
+* Dired
+Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.
+=dired-dwim-target= tells dired to try to guess a default target directory for file operations. This means if there is a Dired buffer displayed in the next window, use that as the target. Convinient when doing operations between directories.
+#+BEGIN_SRC emacs-lisp
+  (setf dired-listing-switches "-lh"
+        delete-by-moving-to-trash t
+        dired-dwim-target t)
+#+END_SRC
+** Dired-X
+Dired-X adds some nice features, one of them is doing file operations async. A must have for doing large/over-the-network copies
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-load-hook
+            (lambda ()
+              (load "dired-x")))
+#+END_SRC
