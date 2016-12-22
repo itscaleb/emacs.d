@@ -117,3 +117,25 @@ Use gpg2 instead of gpg
 #+BEGIN_SRC emacs-lisp
   (setf epg-gpg-program "gpg2")
 #+END_SRC
+* Some Extra Commands
++ Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
+#+BEGIN_SRC emacs-lisp
+(defun unfill-paragraph ()
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(defun unfill-region (start end)
+  (interactive "r")
+  (let ((fill-column (point-max)))
+    (fill-region start end nil)))
+#+END_SRC
+
++ Let's play zork!
+#+BEGIN_SRC emacs-lisp
+(defun zork ()
+  "Starts a game of Zork."
+  (interactive)
+  (require 'malyon)
+  (malyon "~/.emacs.d/games/zork1.z5"))
+#+END_SRC
