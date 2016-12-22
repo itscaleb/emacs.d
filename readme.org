@@ -7,18 +7,19 @@ If the variables I'm setting aren't clear what they're used for, use =\C-h v= an
 I want my customization information going to a file other than the emacs config file. I don't like the constant churn in my main config file when I make a change through customize.
 #+BEGIN_SRC emacs-lisp
   (setf custom-file "~/.emacs.d/emacs-custom.el")
+  (load custom-file t)
 #+END_SRC
 * Package
 This adds melpa, loads packages, and installs all the packages I want. =package-selected-packages= is new in Emacs 25 and makes it easy to get all your packages installed on new computers.
 #+BEGIN_SRC emacs-lisp
-  (require 'package)
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/"))
+    (require 'package)
+    (add-to-list 'package-archives
+                 '("melpa" . "https://melpa.org/packages/"))
 
-  (package-initialize)
+    (package-initialize)
 
-  (when (not package-archive-contents)
-      (package-refresh-contents))
+    (when (not package-archive-contents)
+        (package-refresh-contents))
 
     (setf package-selected-packages '(magit
                                       paredit
@@ -27,17 +28,25 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
                                       spaceline
                                       emms))
 
-  (package-install-selected-packages)
+    (package-install-selected-packages)
 #+END_SRC
 * Emacs
 ** Global Settings
-Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers.
+Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode 1)
   (ivy-mode 1) ; tyring out ivy
   (setf indent-tabs-mode nil
         initial-buffer-choice "~/org/splash.org")
   (global-auto-revert-mode)
+  (setf vc-follow-symlinks t)
+  (setf confirm-kill-emacs 'y-or-n-p)
+  (server-start)
+#+END_SRC
+** Input Method Stuff
+This sets up japanese input within emacs. You probably don't need this if you have it set up through your OS?
+#+BEGIN_SRC emacs-lisp
+  (setf default-input-method "japanese")
 #+END_SRC
 ** Global Key Bindings
 #+BEGIN_SRC emacs-lisp
@@ -59,11 +68,21 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
     (setf ns-use-srgb-colorspace nil))
   (spaceline-spacemacs-theme)
   (load-theme 'zenburn t)
+  (show-paren-mode t)
+  (menu-bar-mode -1)
 #+END_SRC
 Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose track of time otherwise! By default it also shows the load-average, but I'm not really worried about that so I turned it off.
 #+BEGIN_SRC emacs-lisp
 (setf display-time-default-load-average nil)
 (display-time-mode)
+#+END_SRC
+** Adding My User Info
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "Caleb Gossler"
+        user-mail-address "calebdesu@gmail.com"
+        calendar-latitude +47.45
+        calendar-longitude -122.30
+        calendar-location-name "Seattle, WA")
 #+END_SRC
 * Org-mode
 ** Some Basics
