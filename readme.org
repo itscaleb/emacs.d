@@ -28,7 +28,8 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
                                     spaceline
                                     emms
                                     company
-                                    jabber))
+                                    jabber
+                                    malyon))
 
   (package-install-selected-packages)
 #+END_SRC

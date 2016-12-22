@@ -11,3 +11,4 @@ emms/*
 /org-clock-save.el
 /recentf
 /jabber-avatar-cache
+game/*.save
