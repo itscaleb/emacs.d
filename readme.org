@@ -35,10 +35,9 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode 1)
-  (ivy-mode 1) ; tyring out ivy
   (setf indent-tabs-mode nil
         initial-buffer-choice "~/org/splash.org")
-  (global-auto-revert-mode)
+  (global-auto-revert-mode t)
   (setf vc-follow-symlinks t)
   (setf confirm-kill-emacs 'y-or-n-p)
   (server-start)
@@ -62,8 +61,7 @@ This sets up japanese input within emacs. You probably don't need this if you ha
 ** Making Things Look Nice
 #+BEGIN_SRC emacs-lisp
   (require 'spaceline-config)
-  (setf powerline-default-separator 'wave
-        powerline-height 20)
+  (setf powerline-default-separator 'wave)
   (when (eq system-type 'darwin) ; fix for spaceline on mac
     (setf ns-use-srgb-colorspace nil))
   (spaceline-spacemacs-theme)
@@ -88,11 +86,12 @@ Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose tra
 ** Some Basics
 Here we go...
 #+BEGIN_SRC emacs-lisp
-  (load "org-habit")
   (setf org-agenda-files '("~/org/agenda")
         org-startup-indented t
         org-agenda-span 'day
-        org-log-done 'note)
+        org-log-into-drawer t
+        org-log-done 'note
+        org-clock-idle-time 10)
 #+END_SRC
 ** Configure Text Searching of my Notes
 If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in org files other than your agenda files. This enables evernote-like search features in Emacs!! I set it to include all org files (recursively) in my =~/org/notes/= directory.
@@ -106,6 +105,51 @@ Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
         '((sequence "TODO(t)" "|" "DONE(d)")))
+#+END_SRC
+** Clocking
+#+BEGIN_SRC emacs-lisp
+  (setf org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+#+END_SRC
+** Org-babel
+I use ditaa a lot, this enables execution of ditaa code blocks
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((ditaa . t)))
+  (setf org-confirm-babel-evaluate nil)
+#+END_SRC
+** Org-capture
+I want to be able to capture notes even when I don't have emacs open in front of me, perhaps while watching a video. Assuming emacs is running in server mode by calling =(start-server)=, You can add a note to the current clocked in entry (which I bound to =(org-capture nil "c")= ) with the command:
+
+=emacsclient -e "(make-capture-frame)"=
+
+I have it set up as a keyboard shortcut in gnome.
+
+Using org-protocols might be a good alternative to this, I'm going to look into that soon.
+#+BEGIN_SRC emacs-lisp
+  (defadvice org-capture-finalize (after delete-capture-frame activate)
+    "Advise capture-finalize to close the frame if it is the capture frame"
+    (if (equal "capture" (frame-parameter nil 'name))
+        (delete-frame)))
+
+  (defadvice org-capture-destroy (after delete-capture-frame activate)
+    "Advise capture-destroy to close the frame if it is the capture frame"
+    (if (equal "capture" (frame-parameter nil 'name))
+        (delete-frame)))
+
+  (defun make-capture-frame ()
+    "Create a new frame and run org-capture."
+    (interactive)
+    (make-frame '((name . "capture")(width . 75)(height . 10)(top . -1)))
+    (select-frame-by-name "capture")
+    (delete-other-windows)
+    (org-capture nil "c"))
+#+END_SRC
+This is a shortcut for me to add a note to the clocked in entry.
+#+BEGIN_SRC emacs-lisp
+  (define-key global-map "\C-cr"
+    (lambda () (interactive) (org-capture nil "c")))
 #+END_SRC
 * Dired
 Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.
@@ -123,7 +167,7 @@ Dired-X adds some nice features, one of them is doing file operations async. A m
               (load "dired-x")))
 #+END_SRC
 * Emacs Multimedia System (EMMS)
-It's very convenient to be able to control music from within Emacs. I use it mostly to play internet audio streams.
+It's very convenient to be able to control music from within Emacs. I use it mostly to play streams.
 #+BEGIN_SRC emacs-lisp
   (require 'emms-setup)
   (emms-all)
@@ -135,6 +179,13 @@ It's very convenient to be able to control music from within Emacs. I use it mos
 Use gpg2 instead of gpg
 #+BEGIN_SRC emacs-lisp
   (setf epg-gpg-program "gpg2")
+#+END_SRC
+* Ivy
+#+BEGIN_SRC emacs-lisp
+  (setf ivy-use-virtual-buffers t)
+  (setf magit-completing-read-function 'ivy-completing-read)
+  (setf ivy-count-format "(%d/%d) ")
+  (ivy-mode 1) ; tyring out ivy
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
@@ -157,4 +208,8 @@ Use gpg2 instead of gpg
   (interactive)
   (require 'malyon)
   (malyon "~/.emacs.d/games/zork1.z5"))
+#+END_SRC
+* Hooks
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'visual-line-mode)
 #+END_SRC
