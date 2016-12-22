@@ -8,3 +8,4 @@ elpa/
 /tramp
 emms/*
 !emms/streams
+/org-clock-save.el

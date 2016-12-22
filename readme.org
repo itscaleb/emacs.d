@@ -12,23 +12,24 @@ I want my customization information going to a file other than the emacs config 
 * Package
 This adds melpa, loads packages, and installs all the packages I want. =package-selected-packages= is new in Emacs 25 and makes it easy to get all your packages installed on new computers.
 #+BEGIN_SRC emacs-lisp
-    (require 'package)
-    (add-to-list 'package-archives
-                 '("melpa" . "https://melpa.org/packages/"))
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/"))
 
-    (package-initialize)
+  (package-initialize)
 
-    (when (not package-archive-contents)
-        (package-refresh-contents))
+  (when (not package-archive-contents)
+      (package-refresh-contents))
 
-    (setf package-selected-packages '(magit
-                                      paredit
-                                      swiper
-                                      zenburn-theme
-                                      spaceline
-                                      emms))
+  (setf package-selected-packages '(magit
+                                    paredit
+                                    swiper
+                                    zenburn-theme
+                                    spaceline
+                                    emms
+                                    company))
 
-    (package-install-selected-packages)
+  (package-install-selected-packages)
 #+END_SRC
 * Emacs
 ** Global Settings
@@ -114,6 +115,7 @@ Setting up keyword workflows.
 ** Org-babel
 I use ditaa a lot, this enables execution of ditaa code blocks
 #+BEGIN_SRC emacs-lisp
+  (setf org-ditaa-jar-path "/run/current-system/sw/lib/ditaa.jar")
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ditaa . t)))
@@ -211,5 +213,6 @@ Use gpg2 instead of gpg
 #+END_SRC
 * Hooks
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
