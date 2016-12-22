@@ -27,7 +27,8 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
                                     zenburn-theme
                                     spaceline
                                     emms
-                                    company))
+                                    company
+                                    jabber))
 
   (package-install-selected-packages)
 #+END_SRC
@@ -82,6 +83,12 @@ Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose tra
         calendar-latitude +47.45
         calendar-longitude -122.30
         calendar-location-name "Seattle, WA")
+#+END_SRC
+* Auth Sources
+Auth sources let you store credentials for services you use in emacs. This way you don't need to keep passwords in plain text in your config.
+#+BEGIN_SRC emacs-lisp
+  (setf auth-sources
+        '((:source "~/org/authinfo.gpg")))
 #+END_SRC
 * Org-mode
 ** Some Basics
@@ -188,6 +195,23 @@ Use gpg2 instead of gpg
   (setf magit-completing-read-function 'ivy-completing-read)
   (setf ivy-count-format "(%d/%d) ")
   (ivy-mode 1) ; tyring out ivy
+#+END_SRC
+* Jabber
+I use this to connect to google hangouts/talk. It doesn't offer all the features but It's nice being able to chat in emacs.
+#+BEGIN_SRC emacs-lisp
+  (setf jabber-alert-presence-hooks nil
+        jabber-show-resources nil
+        jabber-auto-reconnect t
+        jabber-history-enabled t
+        jabber-roster-show-title nil
+        jabber-roster-line-format " %c %-25n %u %-8s  %S"
+        jabber-alert-message-wave "~/.emacs.d/data/sound.wav"
+        ; jabber-message-alert-same-buffer nil
+        jabber-account-list '(("calebdesu@gmail.com"))
+        jabber-alert-message-hooks '(jabber-message-notifications
+                                     jabber-message-echo
+                                     jabber-message-scroll
+                                     jabber-message-wave))
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"

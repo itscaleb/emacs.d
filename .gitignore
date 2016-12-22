@@ -9,3 +9,5 @@ elpa/
 emms/*
 !emms/streams
 /org-clock-save.el
+/recentf
+/jabber-avatar-cache
