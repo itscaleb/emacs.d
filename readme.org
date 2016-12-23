@@ -164,6 +164,8 @@ I have it set up as a keyboard shortcut in gnome.
 
 Using org-protocols might be a good alternative to this, I'm going to look into that soon.
 #+BEGIN_SRC emacs-lisp
+  (add-hook 'org-capture-mode-hook 'delete-other-windows)
+
   (defadvice org-capture-finalize (after delete-capture-frame activate)
     "Advise capture-finalize to close the frame if it is the capture frame"
     (if (equal "capture" (frame-parameter nil 'name))
@@ -180,7 +182,7 @@ Using org-protocols might be a good alternative to this, I'm going to look into 
     (make-frame '((name . "capture")(width . 75)(height . 10)(top . -1)))
     (select-frame-by-name "capture")
     (delete-other-windows)
-    (org-capture nil "c"))
+    (org-capture nil "n"))
 #+END_SRC
 This is a shortcut for me to add a note to the clocked in entry.
 #+BEGIN_SRC emacs-lisp
