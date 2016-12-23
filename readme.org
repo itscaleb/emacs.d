@@ -131,6 +131,31 @@ I use ditaa a lot, this enables execution of ditaa code blocks
   (setf org-confirm-babel-evaluate nil)
 #+END_SRC
 ** Org-capture
+If any capture doesn't specify a target, fall back to =inbox.org=.
+
+#+BEGIN_SRC emacs-lisp
+  (setf org-default-notes-file "~/org/agenda/inbox.org")
+#+END_SRC
+*** Templates
+#+BEGIN_SRC emacs-lisp
+  (setf org-capture-templates
+        '(("c" "Clock into new")
+          ("ct" "Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
+           "* TODO %?\n  SCHEDULED: %T Created: %U\n  Context: %a\n  %i" :clock-in t :clock-keep t)
+          ("cm" "Meeting" entry (file+datetree "~/org/meetings.org")
+           "* %?\n+ *Agenda*:" :clock-in t :clock-keep t)
+          ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
+           "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer)
+          ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
+           "* %? %^g\n\nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
+          ("n" "Add Note to Clocked in Entry" item (clock)
+           "+ %? (%<%r>)")
+          ("b" "Add Checkbox to Clocked in Entry" item (clock)
+           "+ [ ] %? (%<%r>)" :prepend t)
+          ("a" "Add Task to Clocked in Entry" entry (clock)
+           "* TODO %?" :prepend t)))
+#+END_SRC
+*** Extra
 I want to be able to capture notes even when I don't have emacs open in front of me, perhaps while watching a video. Assuming emacs is running in server mode by calling =(start-server)=, You can add a note to the current clocked in entry (which I bound to =(org-capture nil "c")= ) with the command:
 
 =emacsclient -e "(make-capture-frame)"=

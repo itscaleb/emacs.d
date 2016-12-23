@@ -12,3 +12,4 @@ emms/*
 /recentf
 /jabber-avatar-cache
 games/*.save
+/jabber-history
