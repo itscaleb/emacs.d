@@ -100,7 +100,6 @@ Here we go...
         org-startup-indented t
         org-agenda-span 'day
         org-log-into-drawer t
-        org-log-done 'note
         org-clock-idle-time 10)
 #+END_SRC
 ** Configure Text Searching of my Notes
@@ -114,7 +113,7 @@ Note: =\C-a s= brings up the search prompt in the minibuffer.
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
-        '((sequence "TODO(t)" "|" "DONE(d)")))
+        '((sequence "TODO(t)" "|" "DONE(d!)")))
 #+END_SRC
 ** Clocking
 #+BEGIN_SRC emacs-lisp
@@ -186,8 +185,8 @@ Using org-protocols might be a good alternative to this, I'm going to look into 
 #+END_SRC
 This is a shortcut for me to add a note to the clocked in entry.
 #+BEGIN_SRC emacs-lisp
-  (define-key global-map "\C-cr"
-    (lambda () (interactive) (org-capture nil "c")))
+  (define-key global-map "\C-cn"
+    (lambda () (interactive) (org-capture nil "n")))
 #+END_SRC
 * Dired
 Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.

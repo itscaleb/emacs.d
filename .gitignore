@@ -13,3 +13,5 @@ emms/*
 /jabber-avatar-cache
 games/*.save
 /jabber-history
+emacs-custom.el
+/kkcrc
