@@ -196,12 +196,17 @@ Dired renders a buffer that it builds off of a call to =ls=. Here we can customi
         delete-by-moving-to-trash t
         dired-dwim-target t)
 #+END_SRC
+By default, dired shows permissions, user and group, file size, and dates. I prefer a cleaner view, so this enables =dired-hide-details-mode=. You can toggle it on and off with =(= when the extra details are needed.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+#+END_SRC
 ** Dired-X
 Dired-X adds some nice features, one of them is doing file operations async. A must have for doing large/over-the-network file operations
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'dired-load-hook
-            (lambda ()
-              (load "dired-x")))
+    (add-hook 'dired-load-hook
+              (lambda ()
+                (load "dired-x")
+                (dired-async-mode)))
 #+END_SRC
 * Emacs Multimedia System (EMMS)
 It's very convenient to be able to control music from within Emacs. I use it mostly to play streams.
@@ -257,11 +262,17 @@ I use this to connect to google hangouts/talk. It doesn't offer all the features
 
 + Let's play zork!
 #+BEGIN_SRC emacs-lisp
-(defun zork ()
-  "Starts a game of Zork."
-  (interactive)
-  (require 'malyon)
-  (malyon "~/.emacs.d/games/zork1.z5"))
+  (defun zork ()
+    "Starts a game of Zork."
+    (interactive)
+    (require 'malyon)
+    (malyon "~/.emacs.d/games/zork1.z5"))
+
+  (defun spider ()
+    "Starts a game of 'Spider and Web'."
+    (interactive)
+    (require 'malyon)
+    (malyon "~/.emacs.d/games/spider.z5"))
 #+END_SRC
 * Hooks
 #+BEGIN_SRC emacs-lisp
