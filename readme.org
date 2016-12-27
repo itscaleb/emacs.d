@@ -38,11 +38,12 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode 1)
-  (setf indent-tabs-mode nil
-        initial-buffer-choice "~/org/splash.org")
   (global-auto-revert-mode t)
-  (setf vc-follow-symlinks t)
-  (setf confirm-kill-emacs 'y-or-n-p)
+  (setf indent-tabs-mode nil
+        initial-buffer-choice "~/org/splash.org"
+        vc-follow-symlinks t
+        confirm-kill-emacs 'y-or-n-p
+        backup-directory-alist '(("." . "~/.emacs.d/backup")))
   (server-start)
 #+END_SRC
 ** Input Method Stuff

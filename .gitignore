@@ -15,3 +15,6 @@ games/*.save
 /jabber-history
 emacs-custom.el
 /kkcrc
+/.org-id-locations
+/bookmarks
+/url
