@@ -98,6 +98,7 @@ Auth sources let you store credentials for services you use in emacs. This way y
 Here we go...
 #+BEGIN_SRC emacs-lisp
   (setf org-agenda-files '("~/org/agenda")
+        org-refile-targets '((org-agenda-files :maxlevel . 2))
         org-startup-indented t
         org-agenda-span 'day
         org-log-into-drawer t
@@ -148,6 +149,8 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
            "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer)
           ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
            "* %? %^g\n\nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
+          ("r" "Random" entry (file "~/org/agenda/random.org.gpg")
+           "* %?\n  Created At: %U" :empty-lines-after 1 :kill-buffer t)
           ("n" "Add Note to Clocked in Entry" item (clock)
            "+ %? (%<%r>)")
           ("b" "Add Checkbox to Clocked in Entry" item (clock)
