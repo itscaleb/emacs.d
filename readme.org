@@ -144,7 +144,7 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
         '(("c" "Clock into new")
           ("ct" "Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
            "* TODO %?\n  SCHEDULED: %T Created: %U\n  Context: %a\n  %i" :clock-in t :clock-keep t)
-          ("cm" "Meeting" entry (file+datetree "~/org/meetings.org")
+          ("cm" "Meeting" entry (file+datetree "~/org/agenda/meetings.org")
            "* %?\n+ *Agenda*:\n+ *Attendees*:" :clock-in t :clock-keep t)
           ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
            "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer)
