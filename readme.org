@@ -29,7 +29,8 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
                                     emms
                                     company
                                     jabber
-                                    malyon))
+                                    malyon
+                                    bbdb))
 
   (package-install-selected-packages)
 #+END_SRC
@@ -144,7 +145,7 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
           ("ct" "Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
            "* TODO %?\n  SCHEDULED: %T Created: %U\n  Context: %a\n  %i" :clock-in t :clock-keep t)
           ("cm" "Meeting" entry (file+datetree "~/org/meetings.org")
-           "* %?\n+ *Agenda*:" :clock-in t :clock-keep t)
+           "* %?\n+ *Agenda*:\n+ *Attendees*:" :clock-in t :clock-keep t)
           ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
            "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer)
           ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
@@ -249,6 +250,10 @@ I use this to connect to google hangouts/talk. It doesn't offer all the features
                                      jabber-message-echo
                                      jabber-message-scroll
                                      jabber-message-wave))
+#+END_SRC
+* BBDB
+#+BEGIN_SRC emacs-lisp
+  (setf bbdb-file "~/org/bbdb.gpg")
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
