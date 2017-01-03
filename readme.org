@@ -83,7 +83,7 @@ Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose tra
 ** Adding My User Info
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Caleb Gossler"
-        user-mail-address "calebdesu@gmail.com"
+        user-mail-address "caleb.gossler@gmail.com"
         calendar-latitude +47.45
         calendar-longitude -122.30
         calendar-location-name "Seattle, WA")
@@ -255,6 +255,27 @@ I use this to connect to google hangouts/talk. It doesn't offer all the features
 #+BEGIN_SRC emacs-lisp
   (setf bbdb-file "~/org/bbdb.gpg")
 #+END_SRC
+* Email
+** Outgoing Email
+I'm using my Gmail account for outgoing messages via SMTP. Link to the [[info:smtpmail#Emacs%20Speaks%20SMTP][Relevant info page]]. 
+
+After this is set up, you can use =Message= mode (=\C-x m=) to send outgoing email.
+
+For authentication, the first time you connect, Emacs will prompt you for your username and password. By default, it will save it in your authinfo file so you probably want your authinfo encrypted (which is dead simple using EasyPG, a built-in Emacs package).
+
+Or, you can add it manually yourself by appending the following line to your authinfo (adding your username and password):
+
+=machine smtp.gmail.com login <your username>@gmail.com port 587 password <your password>=
+
+/You should have two factor authentication turned on, and generate an app specific password for Emacs through your Google account settings./
+#+BEGIN_SRC emacs-lisp
+  (setf send-mail-function 'smtpmail-send-it
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        smtpmail-stream-type 'starttls)
+#+END_SRC
+** Reading Email
+...coming soon.
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
 #+BEGIN_SRC emacs-lisp
