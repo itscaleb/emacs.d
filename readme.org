@@ -286,6 +286,19 @@ Or, you can add it manually yourself by appending the following line to your aut
 #+END_SRC
 ** Reading Email
 ...coming soon.
+* IRC
+I want to use my authinfo file to store all my IRC accounts. This grabs all the IRC connections stored in it and connects to each one.
+#+BEGIN_SRC emacs-lisp
+  (defun irc-connect ()
+    (interactive)
+    (require 'auth-source)
+    (let ((auth (auth-source-search :port "irc" :requires '(user secret host))))
+      (dolist (login auth)
+        (let ((pass (funcall (plist-get login :secret)))
+              (nick (plist-get login :user))
+              (host (plist-get login :host)))
+          (erc :server host :nick nick :password pass)))))
+#+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
 #+BEGIN_SRC emacs-lisp
