@@ -287,12 +287,15 @@ Or, you can add it manually yourself by appending the following line to your aut
 ** Reading Email
 ...coming soon.
 * IRC
-I want to use my authinfo file to store all my IRC accounts. This grabs all the IRC connections stored in it and connects to each one.
+This function has ERC connect to every IRC network entry in your authinfo file.
+
+Each line should look something like:
+=machine irc.freenode.net login mynick port irc password mypass=
 #+BEGIN_SRC emacs-lisp
-  (defun irc-connect ()
+  (defun irc-connect-all ()
     (interactive)
     (require 'auth-source)
-    (let ((auth (auth-source-search :port "irc" :requires '(user secret host))))
+    (let ((auth (auth-source-search :port "irc" :max 10 :requires '(user secret host))))
       (dolist (login auth)
         (let ((pass (funcall (plist-get login :secret)))
               (nick (plist-get login :user))
