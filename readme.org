@@ -202,8 +202,11 @@ This is a shortcut for me to add a note to the clocked in entry.
         '(("n" "Agenda and all TODOs"
            ((agenda "")
             (alltodo "")))
-          ("w" . "WORK tag searches")
-          ("ws" "Standup Tagged Entries" tags-todo "+work+standup")))
+          ("w" . "WORK Agenda Commands")
+          ("ws" "Standup tagged entries" tags-todo "+work+standup")
+          ("wr" "Entries that need to be sorted" tags "work+sort")
+          ("p" . "Personal Agenda Commands")
+          ("pr" "Entries that need to be sorted" tags "personal+sort")))
 #+END_SRC
 * Dired
 Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.
