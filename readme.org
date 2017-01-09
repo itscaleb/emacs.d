@@ -304,6 +304,10 @@ Each line should look something like:
               (host (plist-get login :host)))
           (erc :server host :nick nick :password pass)))))
 #+END_SRC
+ERC Settings
+#+BEGIN_SRC emacs-lisp
+  (setf erc-hide-list '("JOIN" "PART" "QUIT"))
+#+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
 #+BEGIN_SRC emacs-lisp
