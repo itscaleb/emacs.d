@@ -30,7 +30,8 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
                                     company
                                     jabber
                                     malyon
-                                    bbdb))
+                                    bbdb
+                                    restclient))
 
   (package-install-selected-packages)
 #+END_SRC
