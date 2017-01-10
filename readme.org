@@ -31,7 +31,8 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
                                     jabber
                                     malyon
                                     bbdb
-                                    restclient))
+                                    restclient
+                                    multiple-cursors))
 
   (package-install-selected-packages)
 #+END_SRC
@@ -64,6 +65,10 @@ This sets up japanese input within emacs. You probably don't need this if you ha
   (global-set-key "\C-cb" 'org-iswitchb)
   (global-set-key "\C-cj" 'org-clock-jump-to-current-clock)
   (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 #+END_SRC
 ** Making Things Look Nice
 #+BEGIN_SRC emacs-lisp
@@ -290,7 +295,14 @@ Or, you can add it manually yourself by appending the following line to your aut
         smtpmail-stream-type 'starttls)
 #+END_SRC
 ** Reading Email
-...coming soon.
+#+BEGIN_SRC emacs-lisp
+  (setf gnus-select-method '(nnimap "imap.gmail.com"
+                                    (nnimap-inbox "INBOX"))
+        gnus-startup-file "~/org/newsrc"
+        gnus-init-file "~/org/gnus"
+        gnus-save-newsrc-file nil
+        gnus-read-newsrc-file nil)
+#+END_SRC
 * IRC
 This function has ERC connect to every IRC network entry in your authinfo file.
 

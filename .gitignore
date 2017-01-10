@@ -18,3 +18,4 @@ emacs-custom.el
 /.org-id-locations
 /bookmarks
 /url
+/.mc-lists.el
