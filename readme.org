@@ -14,14 +14,15 @@ This adds melpa, loads packages, and installs all the packages I want. =package-
 #+BEGIN_SRC emacs-lisp
   (require 'package)
   (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/"))
-
-  (package-initialize)
+	       '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives
+	       '("org" . "http://orgmode.org/elpa/") t)
 
   (when (not package-archive-contents)
       (package-refresh-contents))
 
-  (setf package-selected-packages '(magit
+  (setf package-selected-packages '(org-plus-contrib
+				    magit
                                     paredit
                                     swiper
                                     zenburn-theme
@@ -103,7 +104,13 @@ Auth sources let you store credentials for services you use in emacs. This way y
 #+END_SRC
 * Org-mode
 ** Some Basics
-Here we go...
+I'm trying out org-drill for creating and studying flash cards. It looks like if I add it to the org-modules, I need to require =cl= before it gets loaded.
+#+BEGIN_SRC emacs-lisp
+(require 'cl)
+(require 'org-drill)
+#+END_SRC
+
+Now that's loaded so we can start setting some options.
 #+BEGIN_SRC emacs-lisp
   (setf org-agenda-files '("~/org/agenda")
         org-refile-targets '((org-agenda-files :maxlevel . 1))
@@ -128,7 +135,7 @@ Note: =\C-a s= brings up the search prompt in the minibuffer.
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
-        '((sequence "TODO(t)" "|" "DONE(d!)")))
+        '((sequence "TODO(t)" "IN PROGRESS(i)" "BLOCKED(b)" "|" "DONE(d!)")))
 #+END_SRC
 ** Clocking
 #+BEGIN_SRC emacs-lisp
