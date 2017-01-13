@@ -215,11 +215,12 @@ This is a shortcut for me to add a note to the clocked in entry.
 ** Custom Agenda Commands
 #+BEGIN_SRC emacs-lisp
   (setf org-agenda-custom-commands
-        '(("n" "Agenda and all TODOs"
+	'(("n" "Agenda and all TODOs"
            ((agenda "")
             (alltodo "")))
           ("w" . "WORK Agenda Commands")
           ("ws" "Standup tagged entries" tags-todo "+work+standup")
+	  ("wq" "Question tagged entries" tags "+work+question")
           ("wr" "Entries that need to be sorted" tags "work+sort")
           ("p" . "Personal Agenda Commands")
           ("pr" "Entries that need to be sorted" tags "personal+sort")))
