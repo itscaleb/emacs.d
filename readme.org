@@ -106,8 +106,9 @@ Auth sources let you store credentials for services you use in emacs. This way y
 ** Some Basics
 I'm trying out org-drill for creating and studying flash cards. It looks like if I add it to the org-modules, I need to require =cl= before it gets loaded.
 #+BEGIN_SRC emacs-lisp
-(require 'cl)
-(require 'org-drill)
+  (require 'cl)
+  (require 'org-drill)
+  (setf org-drill-learn-fraction 0.45)
 #+END_SRC
 
 Now that's loaded so we can start setting some options.
@@ -170,6 +171,8 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
 	   "* Definition :drill:\n(from: %a)\n%?\n** Answer")
 	  ("fs" "Statement" entry (file+headline (buffer-file-name) "Flash Cards")
 	   "* Statement :drill:\n(from: %a)\n%?")
+	  ("fv" "vocabulary" entry (file+headline (buffer-file-name) "Flash Cards")
+	   "* Vocabulary :drill:\n:PROPERTIES:\n:DRILL_CARD_TYPE: twosided\n:END:\n** Japanese\n%?\n** English")
           ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
            "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer)
           ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
