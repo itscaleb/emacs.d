@@ -44,12 +44,13 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
   (global-hl-line-mode 1)
   (global-auto-revert-mode t)
   (setf indent-tabs-mode nil
-        initial-buffer-choice "~/org/splash.org"
-        vc-follow-symlinks t
-        confirm-kill-emacs 'y-or-n-p
-        backup-directory-alist '(("." . "~/.emacs.d/backup")))
+	initial-buffer-choice "~/org/splash.org"
+	vc-follow-symlinks t
+	confirm-kill-emacs 'y-or-n-p
+	backup-directory-alist '(("." . "~/.emacs.d/backup")))
   (add-to-list 'exec-path "~/.nix-profile/bin")
-  (server-start)
+  (unless (server-running-p)
+    (server-start))
 #+END_SRC
 ** Input Method Stuff
 This sets up japanese input within emacs. You probably don't need this if you have it set up through your OS?
