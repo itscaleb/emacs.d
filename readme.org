@@ -49,6 +49,7 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
 	confirm-kill-emacs 'y-or-n-p
 	backup-directory-alist '(("." . "~/.emacs.d/backup")))
   (add-to-list 'exec-path "~/.nix-profile/bin")
+  (require 'server)
   (unless (server-running-p)
     (server-start))
 #+END_SRC
@@ -346,15 +347,21 @@ ERC Settings
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
 #+BEGIN_SRC emacs-lisp
-(defun unfill-paragraph ()
-  (interactive)
-  (let ((fill-column (point-max)))
-    (fill-paragraph nil)))
+  (defun quit ()
+    "This will quit emacs and kill emacs server"
+    (interactive)
+    (save-some-buffers)
+    (kill-emacs))
 
-(defun unfill-region (start end)
-  (interactive "r")
-  (let ((fill-column (point-max)))
-    (fill-region start end nil)))
+  (defun unfill-paragraph ()
+    (interactive)
+    (let ((fill-column (point-max)))
+      (fill-paragraph nil)))
+
+  (defun unfill-region (start end)
+    (interactive "r")
+    (let ((fill-column (point-max)))
+      (fill-region start end nil)))
 #+END_SRC
 
 + Let's play zork!
