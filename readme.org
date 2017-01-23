@@ -207,7 +207,8 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
     "Start capture with the template assigned to TEMPLATE-KEY"
     (make-frame '((alpha . 80)(height . 10)
 		  (top . -1)(left . -10)(autoraise . t)
-		  (title . "Capture")(name . "captureframe")))
+		  (title . "Capture")(name . "captureframe")
+		  (minibuffer . nil)))
     (select-frame-by-name "captureframe")
     (org-capture nil template-key)
     (delete-other-windows))
