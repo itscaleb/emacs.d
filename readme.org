@@ -187,39 +187,29 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
           ("a" "Add Task to Clocked in Entry" entry (clock)
            "* TODO %?" :prepend t)))
 #+END_SRC
-*** Extra
-I want to be able to capture notes even when I don't have emacs open in front of me, perhaps while watching a video. Assuming emacs is running in server mode by calling =(start-server)=, You can add a note to the current clocked in entry (which I bound to =(org-capture nil "c")= ) with the command:
-
-=emacsclient -e "(make-capture-frame)"=
-
-I have it set up as a keyboard shortcut in gnome.
-
-Using org-protocols might be a good alternative to this, I'm going to look into that soon.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'org-capture-mode-hook 'delete-other-windows)
-
-  (defadvice org-capture-finalize (after delete-capture-frame activate)
-    "Advise capture-finalize to close the frame if it is the capture frame"
-    (if (equal "capture" (frame-parameter nil 'name))
-        (delete-frame)))
-
-  (defadvice org-capture-destroy (after delete-capture-frame activate)
-    "Advise capture-destroy to close the frame if it is the capture frame"
-    (if (equal "capture" (frame-parameter nil 'name))
-        (delete-frame)))
-
-  (defun make-capture-frame ()
-    "Create a new frame and run org-capture."
-    (interactive)
-    (make-frame '((name . "capture")(width . 75)(height . 10)(top . -1)))
-    (select-frame-by-name "capture")
-    (delete-other-windows)
-    (org-capture nil "n"))
-#+END_SRC
-This is a shortcut for me to add a note to the clocked in entry.
 #+BEGIN_SRC emacs-lisp
   (define-key global-map "\C-cn"
     (lambda () (interactive) (org-capture nil "n")))
+#+END_SRC
+*** Capturing from outside Emacs
+This is a helper function that lets emacsclient start a new frame and select a capture template. There's also an advice function to close the frame after the capture has been finalized.
+
+The emacs client command is =emacsclient -e "(start-capture \"t\")"=
+
+#+BEGIN_SRC emacs-lisp
+  (defun start-capture (template-key)
+    "Start capture with the template assigned to TEMPLATE-KEY"
+    (make-frame '((alpha . 80)(height . 10)
+		  (top . -1)(left . -10)(autoraise . t)
+		  (title . "Capture")(name . "captureframe")))
+    (select-frame-by-name "captureframe")
+    (org-capture nil template-key)
+    (delete-other-windows))
+
+  (defadvice org-capture-finalize (after delete-capture-frame activate)
+    "Advise capture-finalize to close the frame if it is the capture frame"
+    (if (equal "captureframe" (frame-parameter nil 'name))
+	(delete-frame)))
 #+END_SRC
 ** Custom Agenda Commands
 #+BEGIN_SRC emacs-lisp
