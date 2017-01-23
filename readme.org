@@ -106,10 +106,16 @@ Auth sources let you store credentials for services you use in emacs. This way y
 * Org-mode
 ** Some Basics
 I'm trying out org-drill for creating and studying flash cards. It looks like if I add it to the org-modules, I need to require =cl= before it gets loaded.
+
+The =org-drill-all= command scans for flashcards throughout all my notes and starts an org-drill session.
 #+BEGIN_SRC emacs-lisp
   (require 'cl)
   (require 'org-drill)
-  (setf org-drill-learn-fraction 0.45)
+  (setf org-drill-learn-fraction 0.3)
+  (defun org-drill-all ()
+    (interactive)
+    (org-drill
+     (directory-files-recursively "~/org/notes/" "\.org$")))
 #+END_SRC
 
 Now that's loaded so we can start setting some options.
