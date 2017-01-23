@@ -144,7 +144,7 @@ Note: =\C-a s= brings up the search prompt in the minibuffer.
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
-        '((sequence "TODO(t)" "IN PROGRESS(i)" "BLOCKED(b)" "|" "DONE(d!)")))
+	'((sequence "TODO(t)" "IN PROGRESS(i)" "IN REVIEW(r)" "BLOCKED(b)" "|" "DONE(d!)")))
 #+END_SRC
 ** Clocking
 #+BEGIN_SRC emacs-lisp
@@ -157,7 +157,8 @@ I use ditaa a lot, this enables execution of ditaa code blocks
   (setf org-ditaa-jar-path "/run/current-system/sw/lib/ditaa.jar")
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((ditaa . t)))
+   '((ditaa . t)
+     (sql . t)))
   (setf org-confirm-babel-evaluate nil)
 #+END_SRC
 ** Org-capture
