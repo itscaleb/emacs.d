@@ -117,7 +117,7 @@ Note: =\C-a s= brings up the search prompt in the minibuffer.
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
-	'((sequence "TODO(t)" "IN PROGRESS(i)" "IN REVIEW(r)" "BLOCKED(b)" "|" "DONE(d!)")))
+	'((sequence "TODO(t)" "IN PROGRESS(i)" "IN REVIEW(r)" "BLOCKED(b)" "|" "DONE(d!)" "CANCELLED(c!)")))
 #+END_SRC
 ** Clocking
 #+BEGIN_SRC emacs-lisp
@@ -161,6 +161,8 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
            "* %? %^g\n\nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
           ("r" "Random" entry (file "~/org/agenda/random.org.gpg")
            "* %?\nCreated At: %U" :empty-lines-after 1 :kill-buffer t)
+	  ("e" "Add Entry to Clocked in Entry" item (clock)
+	   "* %?\n  Created: %U\n  Context: %a\n  %i")
           ("n" "Add Note to Clocked in Entry" item (clock)
            "+ %? (%<%r>)")
           ("b" "Add Checkbox to Clocked in Entry" item (clock)
