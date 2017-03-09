@@ -40,7 +40,9 @@ This sets up japanese input within emacs. You probably don't need this if you ha
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
   (global-set-key "\C-cj" 'org-clock-jump-to-current-clock)
-  (global-set-key "\C-s" 'swiper)
+  (global-set-key "\M-x" 'helm-M-x)
+  (global-set-key "\C-s" 'helm-occur)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -242,12 +244,10 @@ Use gpg2 instead of gpg
 #+BEGIN_SRC emacs-lisp
   (setf epg-gpg-program "gpg2")
 #+END_SRC
-* Ivy
+* Helm
 #+BEGIN_SRC emacs-lisp
-  (setf ivy-use-virtual-buffers t)
-  (setf magit-completing-read-function 'ivy-completing-read)
-  (setf ivy-count-format "(%d/%d) ")
-  (ivy-mode 1) ; tyring out ivy
+(setf helm-display-buffer-default-height 15
+	helm-ff-auto-update-initial-value t)
 #+END_SRC
 * Jabber
 I use this to connect to google hangouts/talk. It doesn't offer all the features but It's nice being able to chat in emacs.
