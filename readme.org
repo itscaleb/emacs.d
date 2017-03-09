@@ -10,33 +10,6 @@ I want my customization information going to a file other than the emacs config 
   (load custom-file t)
 #+END_SRC
 * Package
-This adds melpa, loads packages, and installs all the packages I want. =package-selected-packages= is new in Emacs 25 and makes it easy to get all your packages installed on new computers.
-#+BEGIN_SRC emacs-lisp
-  (require 'package)
-  (add-to-list 'package-archives
-	       '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives
-	       '("org" . "http://orgmode.org/elpa/") t)
-
-  (when (not package-archive-contents)
-      (package-refresh-contents))
-
-  (setf package-selected-packages '(org-plus-contrib
-				    magit
-                                    paredit
-                                    swiper
-                                    zenburn-theme
-                                    spaceline
-                                    emms
-                                    company
-                                    jabber
-                                    malyon
-                                    bbdb
-                                    restclient
-                                    multiple-cursors))
-
-  (package-install-selected-packages)
-#+END_SRC
 * Emacs
 ** Global Settings
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
