@@ -43,6 +43,7 @@ This sets up japanese input within emacs. You probably don't need this if you ha
   (global-set-key "\M-x" 'helm-M-x)
   (global-set-key "\C-s" 'helm-occur)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -246,8 +247,9 @@ Use gpg2 instead of gpg
 #+END_SRC
 * Helm
 #+BEGIN_SRC emacs-lisp
-(setf helm-display-buffer-default-height 15
+(setf helm-display-buffer-default-height 12
 	helm-ff-auto-update-initial-value t)
+(spaceline-helm-mode 1)
 #+END_SRC
 * Jabber
 I use this to connect to google hangouts/talk. It doesn't offer all the features but It's nice being able to chat in emacs.
