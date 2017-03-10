@@ -9,7 +9,10 @@ I want my customization information going to a file other than the emacs config 
   (setf custom-file "~/.emacs.d/emacs-custom.el")
   (load custom-file t)
 #+END_SRC
-* Package
+* Packages
+After struggling with managing packages through my Emacs configuration, I decided to manage Emacs packages through [[https://nixos.org/nix/about.html][Nix]]. [[https://github.com/itscaleb/emacs.d/blob/master/emacs.nix][Here is my nix expression]] that handles it all.
+
+A nice benefit of this approach (in addition to all the benefits of nix) is that every package I choose is installed when I use nix to install Emacs, so I can remove all the code managing packages and simplify my Emacs configuration.
 * Emacs
 ** Global Settings
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
