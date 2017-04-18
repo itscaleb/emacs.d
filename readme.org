@@ -218,7 +218,8 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
   (setf org-agenda-custom-commands
 	'(("n" "Agenda and all TODOs"
            ((agenda "")
-            (alltodo "")))
+            (alltodo "" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
+					(org-agenda-overriding-header "Unscheduled Entries")))))
           ("w" . "WORK Agenda Commands")
 	  ("wn" "Work agenda and all TODOs"
 	   ((tags "+PRIORITY=\"A\"+work" ((org-agenda-overriding-header "High Priority")))
