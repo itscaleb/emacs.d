@@ -348,8 +348,11 @@ Each line should look something like:
 ERC Settings
 #+BEGIN_SRC emacs-lisp
   (setf erc-hide-list '("JOIN" "PART" "QUIT")
-        erc-rename-buffers t
-        erc-kill-server-buffer-on-quit t)
+	erc-rename-buffers t
+	erc-kill-server-buffer-on-quit t
+	erc-log-insert-log-on-open t
+	erc-log-mode t
+	erc-log-write-after-insert t)
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
