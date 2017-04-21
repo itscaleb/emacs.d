@@ -222,7 +222,7 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 					(org-agenda-overriding-header "Unscheduled Entries")))))
           ("w" . "WORK Agenda Commands")
 	  ("wn" "Work agenda and all TODOs"
-	   ((tags "+PRIORITY=\"A\"+work" ((org-agenda-overriding-header "High Priority")))
+	   ((tags "+work+PRIORITY=\"A\"" ((org-agenda-overriding-header "High Priority")))
 	    (agenda "" ((org-agenda-skip-function '(org-agenda-include-tag "work"))))
 	    (tags-todo "+work-standup-question" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
 					(org-agenda-overriding-header "Unscheduled Entries")))
@@ -233,7 +233,9 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
           ("wr" "Entries that need to be sorted" tags "work+sort")
 	  ("u" "Study Agenda"
 	   ((agenda "" ((org-agenda-skip-function '(org-agenda-include-tag "study"))))
-	    (tags "+study+backlog" ((org-agenda-overriding-header "Study Backlog")))))
+	    (tags-todo "+study+sort" ((org-agenda-overriding-header "Needs to be Sorted:")))
+	    (tags-todo "+study+backlog" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
+					 (org-agenda-overriding-header "Study Backlog:")))))
           ("p" . "Personal Agenda Commands")
           ("pr" "Entries that need to be sorted" tags "personal+sort")))
 #+END_SRC
