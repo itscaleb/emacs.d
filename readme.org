@@ -94,7 +94,6 @@ The =org-drill-all= command scans for flashcards throughout all my notes and sta
 #+BEGIN_SRC emacs-lisp
   (require 'cl)
   (require 'org-drill)
-  (setf org-drill-learn-fraction 0.3)
   (defun org-drill-all ()
     (interactive)
     (org-drill
@@ -104,16 +103,18 @@ The =org-drill-all= command scans for flashcards throughout all my notes and sta
 Now that's loaded so we can start setting some options.
 #+BEGIN_SRC emacs-lisp
   (setf org-agenda-files '("~/org/agenda")
-	org-refile-targets '((org-agenda-files :maxlevel . 2))
-	org-startup-indented t
-	org-agenda-span 'day
-	org-log-into-drawer t
-	org-clock-idle-time 10
-	org-return-follows-link t
-	org-special-ctrl-a/e t
-	org-pretty-entities t
-	org-pretty-entities-include-sub-superscripts t
-	org-agenda-skip-scheduled-if-deadline-is-shown t)
+        org-refile-targets '((org-agenda-files :maxlevel . 2))
+        org-startup-indented t
+        org-agenda-span 'day
+        org-log-into-drawer t
+        org-clock-idle-time 10
+        org-return-follows-link t
+        org-special-ctrl-a/e t
+        org-pretty-entities t
+        org-pretty-entities-include-sub-superscripts t
+        org-agenda-skip-scheduled-if-deadline-is-shown t
+        org-drill-learn-fraction 0.3
+        org-log-done 'time)
 #+END_SRC
 ** Configure Text Searching of my Notes
 If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in org files other than your agenda files. This enables evernote-like search features in Emacs!! I set it to include all org files (recursively) in my =~/org/notes/= directory.
