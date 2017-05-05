@@ -245,7 +245,7 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 	  ("hp" "Personal Agenda"
 	   ((tags-todo "PRIORITY=\"A\"+personal" ((org-agenda-overriding-header "High Priority")))
 	    (agenda "" ((org-agenda-skip-function '(org-agenda-include-tag "personal"))))
-	    (tags-todo "personal+inbox|inbox" ((org-agenda-overriding-header "Inbox:")))
+	    (tags-todo "personal+inbox" ((org-agenda-overriding-header "Inbox:")))
 	    (tags-todo "personal" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
 				   (org-agenda-overriding-header "Unscheduled Entries:")))))
 	  ("hs" "Study Agenda"
@@ -258,8 +258,8 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 	  ("hh" "Home Agenda"
 	   ((tags-todo "PRIORITY=\"A\"+personal|PRIORITY=\"A\"+study" ((org-agenda-overriding-header "High Priority")))
 	    (agenda "" ((org-agenda-skip-function '(org-agenda-exclude-tag "work"))))
-	    (tags-todo "personal+inbox|study+inbox|inbox" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-							   (org-agenda-overriding-header "Inbox:")))
+	    (tags-todo "personal+inbox|study+inbox|inbox-work" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
+								(org-agenda-overriding-header "Inbox:")))
 	    (tags-todo "personal|study-backlog" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
 						 (org-agenda-overriding-header "Unscheduled Entries:"))))
 	   ((org-agenda-prefix-format '((agenda . "  %?-12t% s")(tags . "  ")))))))
