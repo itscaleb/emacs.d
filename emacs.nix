@@ -17,10 +17,12 @@ let
     emms
     exec-path-from-shell
     helm
+    htmlize
     jabber
     magit
     multiple-cursors
     nix-mode
+    pandoc
     paredit-everywhere
     pdf-tools
     restclient
