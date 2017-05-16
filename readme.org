@@ -377,9 +377,16 @@ ERC Settings
   (setf erc-hide-list '("JOIN" "PART" "QUIT")
 	erc-rename-buffers t
 	erc-kill-server-buffer-on-quit t
-	erc-log-insert-log-on-open t
+	erc-modules '(autojoin button completion
+		      fill irccontrols list log
+		      match menu move-to-prompt
+		      netsplit networks noncommands
+		      notify notifications readonly
+		      ring stamp spelling track)
 	erc-log-mode t
-	erc-log-write-after-insert t)
+	erc-log-insert-log-on-open t
+	erc-log-write-after-insert t
+	erc-log-channels-directory "~/org/irc-logs")
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
