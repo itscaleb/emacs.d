@@ -92,8 +92,6 @@ I'm trying out org-drill for creating and studying flash cards. It looks like if
 
 The =org-drill-all= command scans for flashcards throughout all my notes and starts an org-drill session.
 #+BEGIN_SRC emacs-lisp
-  (require 'cl)
-  (require 'org-drill)
   (defun org-drill-all ()
     (interactive)
     (org-drill
@@ -102,6 +100,9 @@ The =org-drill-all= command scans for flashcards throughout all my notes and sta
 
 Now that's loaded so we can start setting some options.
 #+BEGIN_SRC emacs-lisp
+  (require 'cl)
+  (require 'org-drill)
+  (require 'org-habit)
   (setf org-agenda-files '("~/org/agenda")
         org-refile-targets '((org-agenda-files :maxlevel . 2))
         org-startup-indented t
