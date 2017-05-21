@@ -330,8 +330,13 @@ I use this to connect to google hangouts/talk. It doesn't offer all the features
   (setf bbdb-file "~/org/bbdb.gpg")
 #+END_SRC
 * Email
+After a few tries, I've settled on using mu4e for reading email. mu4e leverages mu, which is a set of tools to index and search emails stored in Maildir format.
+
+In order for mu to index that email, it has to exist in a =Maildir= somewhere on your system. I'm using =mbsync= for that. It fetches my email from gmail over IMAP, copies them to a local =Maildir=, and keeps them synchronized. That part is configured outside of emacs. In addition to =mbsync=, =offlineimap= seems to be another popular choice.
+
+Setting it all up is not as bad as it sounds. And in my opinion it offers a better experience than any other email client I've used, all within emacs.
 ** Outgoing Email
-I'm using my Gmail account for outgoing messages via SMTP. Link to the [[info:smtpmail#Emacs%20Speaks%20SMTP][Relevant info page]]. 
+For sending mail, I'm using =Message=, the Emacs message composition mode. using my Gmail account for outgoing messages via SMTP. Link to the [[info:smtpmail#Emacs%20Speaks%20SMTP][Relevant info page]]. 
 
 After this is set up, you can use =Message= mode (=\C-x m=) to send outgoing email.
 
@@ -343,19 +348,35 @@ Or, you can add it manually yourself by appending the following line to your aut
 
 /You should have two factor authentication turned on, and generate an app specific password for Emacs through your Google account settings./
 #+BEGIN_SRC emacs-lisp
-  (setf send-mail-function 'smtpmail-send-it
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        smtpmail-stream-type 'starttls)
+    (setf send-mail-function 'smtpmail-send-it
+	  smtpmail-smtp-server "smtp.gmail.com"
+	  smtpmail-smtp-service 587
+	  smtpmail-stream-type 'starttls
+	  mail-signature "Caleb Gossler"
+	  message-kill-buffer-on-exit t)
 #+END_SRC
+
 ** Reading Email
+This is all my mu4e settings. Most of these are self-explanitory. Some make mu4e work better with gmail, and are explained well in the mu4e FAQ.
 #+BEGIN_SRC emacs-lisp
-  (setf gnus-select-method '(nnimap "imap.gmail.com"
-                                    (nnimap-inbox "INBOX"))
-        gnus-startup-file "~/org/newsrc"
-        gnus-init-file "~/org/gnus"
-        gnus-save-newsrc-file nil
-        gnus-read-newsrc-file nil)
+  (require 'mu4e)
+  (require 'org-mu4e)
+  (setf mu4e-maildir "~/.mail"
+	mu4e-update-interval 300
+	mu4e-decryption-policy 'ask
+	mu4e-compose-format-flowed t
+	mu4e-headers-skip-duplicates t
+	mu4e-trash-folder "/gmail/Trash"
+	mu4e-get-mail-command "mbsync -aq"
+	mu4e-sent-messages-behavior 'delete
+	mu4e-change-filenames-when-moving t
+	mu4e-maildir-shortcuts '(("/gmail/Inbox" . ?i))
+	mu4e-user-mail-address-list '("calebdesu@gmail.com"
+				      "caleb.gossler@gmail.com")
+	mu4e-headers-fields '((:human-date . 15)
+			      (:flags . 6)
+			      (:from . 30)
+			      (:subject . nil)))
 #+END_SRC
 * IRC
 This function has ERC connect to every IRC network entry in your authinfo file.
