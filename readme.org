@@ -128,7 +128,7 @@ Note: =\C-a s= brings up the search prompt in the minibuffer.
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
-	'((sequence "TODO(t)" "IN PROGRESS(i)" "IN REVIEW(r)" "BLOCKED(b)" "|" "DONE(d!)" "CANCELLED(c!)")))
+	'((sequence "TODO(t)" "IN PROGRESS(i)" "ON HOLD(h)" "IN REVIEW(r)" "BLOCKED(b)" "|" "DONE(d!)" "CANCELLED(c!)")))
 #+END_SRC
 ** Clocking
 #+BEGIN_SRC emacs-lisp
@@ -236,7 +236,8 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 	   ((tags "+work+PRIORITY=\"A\"" ((org-agenda-overriding-header "High Priority:")))
 	    (agenda "" ((org-agenda-skip-function '(org-agenda-include-tag "work"))))
 	    (tags-todo "+work-standup-question" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-						 (org-agenda-overriding-header "Unscheduled Entries:")))
+						 (org-agenda-overriding-header "Unscheduled Entries:")
+						 (org-agenda-sorting-strategy '(todo-state-down))))
 	    (tags-todo "+work+standup" ((org-agenda-overriding-header "Standup Items:")))
 	    (tags-todo "+work+question" ((org-agenda-overriding-header "Open Questions:")))))
           ("ws" "Standup tagged entries" tags-todo "+work+standup")
