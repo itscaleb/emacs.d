@@ -335,49 +335,87 @@ After a few tries, I've settled on using mu4e for reading email. mu4e leverages 
 
 In order for mu to index that email, it has to exist in a =Maildir= somewhere on your system. I'm using =mbsync= for that. =mbsync= synchronizes IMAP4 and Maildir mailboxes. It propogates new mail, deletions, etc. both ways. In addition to =mbsync=, =offlineimap= seems to be another popular choice.
 
+I have this setup for sending/receiving email for two accounts, my work and personal. With mu4e, you can do this with mu4e "contexts."
+
 Setting it all up is not as bad as it sounds. And in my opinion it offers a better experience than any other email client I've used, and it's all within Emacs!
-** Outgoing Email
-For sending mail, I'm using =Message=, the Emacs message composition mode. using my Gmail account for outgoing messages via SMTP. Link to the [[info:smtpmail#Emacs%20Speaks%20SMTP][Relevant info page]]. 
+** Basic Email Config
+For sending mail, I'm using =Message=, the Emacs message composition mode. After this is set up, you can use =Message= mode (=\C-x m=) to send outgoing email.
 
-After this is set up, you can use =Message= mode (=\C-x m=) to send outgoing email.
+One complication with my setup is that I want to be able to send mail through two SMTP accounts. mu4e makes this easy to do with mu4e contexts. There are some variables you need to set to your SMTP server's info, and when you switch contexts in mu4e it will adjust those variables for you.
 
-For authentication, the first time you connect, Emacs will prompt you for your username and password. By default, it will save it in your authinfo file so you probably want your authinfo encrypted (which is dead simple using EasyPG, a built-in Emacs package).
+Here I'm setting some variables that are consistent across both my SMTP accounts. Below in the =mu4e-contexts= setup, you'll see where I set the individual values for =smtpmail-smtp-server= on both contexts.
 
-Or, you can add it manually yourself by appending the following line to your authinfo (adding your username and password):
+#+BEGIN_SRC emacs-lisp
+  (setf send-mail-function 'smtpmail-send-it
+	smtpmail-stream-type 'starttls
+	smtpmail-smtp-service 587
+	message-kill-buffer-on-exit t)
+#+END_SRC
+
+For authentication, the first time you send mail, Emacs will prompt you for your username and password. By default, it will save it in your authinfo file so you probably want your authinfo encrypted (which is dead simple using EasyPG, a built-in Emacs package).
+
+Or, you can add it manually yourself by appending a line similar to the following to your authinfo (adding your username and password):
 
 =machine smtp.gmail.com login <your username>@gmail.com port 587 password <your password>=
 
-/You should have two factor authentication turned on, and generate an app specific password for Emacs through your Google account settings./
-#+BEGIN_SRC emacs-lisp
-    (setf send-mail-function 'smtpmail-send-it
-	  smtpmail-smtp-server "smtp.gmail.com"
-	  smtpmail-smtp-service 587
-	  smtpmail-stream-type 'starttls
-	  mail-signature "Caleb Gossler"
-	  message-kill-buffer-on-exit t)
-#+END_SRC
+/For gmail, you should have two factor authentication turned on, and generate an app specific password./
 
-** Reading Email
-This is all my mu4e settings. Most of these are self-explanitory. Some make mu4e work better with gmail, and are explained well in the mu4e FAQ.
+** Mu4e Config
+Most of these variables are self-explanitory. Some make mu4e work better with gmail, and are explained in the mu4e FAQ. The missing part here is my mbsync configuration file. I'll see if I can get that included here at some point.
 #+BEGIN_SRC emacs-lisp
-    (require 'mu4e)
-    (require 'org-mu4e)
-    (setf mu4e-maildir "~/.mail"
-	  mu4e-update-interval 300
-	  mu4e-hide-index-messages t
-	  mu4e-decryption-policy 'ask
-	  mu4e-compose-format-flowed t
-	  mu4e-headers-skip-duplicates t
-	  mu4e-get-mail-command "mbsync -aq"
-	  mu4e-sent-messages-behavior 'delete
-	  mu4e-change-filenames-when-moving t
-	  mu4e-maildir-shortcuts '(("/INBOX" . ?i))
-	  mu4e-user-mail-address-list '("calebdesu@gmail.com"
-					"caleb.gossler@gmail.com")
-	  mu4e-headers-fields '((:human-date . 15)
-				(:flags . 6)
-				(:from . 30)
-				(:subject . nil)))
+  (require 'mu4e)
+  (require 'org-mu4e)
+  (setf mu4e-maildir "~/.mail"
+	mu4e-view-show-images t
+	mu4e-update-interval 300
+	mu4e-view-show-addresses t
+	mu4e-hide-index-messages t
+	mu4e-decryption-policy 'ask
+	mu4e-compose-format-flowed t
+	mu4e-context-policy 'ask-if-none
+	mu4e-get-mail-command "mbsync -a"
+	mu4e-change-filenames-when-moving t
+	mu4e-sent-messages-behavior 'delete
+	mu4e-compose-context-policy 'ask-if-none
+	mu4e-maildir-shortcuts '(("/personal/inbox" . ?i)
+				 ("/work/inbox" . ?w))
+	mu4e-user-mail-address-list '("calebdesu@gmail.com"
+				      "cgossler@arivale.com"
+				      "caleb.gossler@gmail.com")
+	mu4e-headers-fields '((:human-date	. 15)
+			      (:flags		. 6)
+			      (:from		. 30)
+			      (:thread-subject	. nil)))
+  (setf mu4e-contexts
+	`( ,(make-mu4e-context
+	     :name "Personal"
+	     :match-func (lambda (msg)
+			   (when msg
+			     (mu4e-message-contact-field-matches
+			      msg :to "gmail\.com")))
+	     :vars '( ( user-mail-address      . "caleb.gossler@gmail.com"  )
+		      ( user-full-name         . "Caleb Gossler" )
+		      ( smtpmail-smtp-server   . "smtp.gmail.com")
+		      ( mu4e-compose-signature . "Caleb Gossler")
+		      ( mu4e-trash-folder      . "/personal/trash")
+		      ( mu4e-sent-folder       . "/personal/sent")
+		      ( mu4e-drafts-folder     . "/personal/drafts")
+		      ( mu4e-refile-folder     . "/personal/archive")
+		      ( mu4e-headers-skip-duplicates . t)))
+	   ,(make-mu4e-context
+	     :name "Work"
+	     :match-func (lambda (msg)
+			   (when msg
+			     (mu4e-message-contact-field-matches
+			      msg :to "arivale\.com")))
+	     :vars '( ( user-mail-address		. "cgossler@arivale.com" )
+		      ( user-full-name		. "Caleb Gossler" )
+		      ( smtpmail-smtp-server	. "smtp.office365.com")
+		      ( mu4e-compose-signature	. "Caleb Gossler\nSoftware Engineer")
+		      ( mu4e-trash-folder		. "/work/trash")
+		      ( mu4e-sent-folder		. "/work/sent")
+		      ( mu4e-drafts-folder	. "/work/drafts")
+		      ( mu4e-refile-folder	. "/work/archive")))))
 #+END_SRC
 * IRC
 This function has ERC connect to every IRC network entry in your authinfo file.
@@ -449,4 +487,8 @@ ERC Settings
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'message-mode-hook 'turn-on-orgtbl)
+  (add-hook 'message-mode-hook 'turn-on-orgstruct++)
+  (add-hook 'sql-interactive-mode-hook (lambda ()
+					 (toggle-truncate-lines t)))
 #+END_SRC
