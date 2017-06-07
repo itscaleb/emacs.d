@@ -425,6 +425,12 @@ Get a desktop notification on update.
 	      (require 'notifications)
 	      (notifications-notify :title "Email Updated")))
 #+END_SRC
+
+This hook seems to help when sending email, preventing newlines from appearing in paragraphs.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'mu4e-compose-mode-hook (lambda ()
+				      (setf use-hard-newlines nil)))
+#+END_SRC
 * IRC
 This function has ERC connect to every IRC network entry in your authinfo file.
 
