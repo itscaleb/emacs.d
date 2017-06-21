@@ -375,7 +375,7 @@ Most of these variables are self-explanitory. Some make mu4e work better with gm
 	mu4e-context-policy 'ask-if-none
 	mu4e-get-mail-command "mbsync -a"
 	mu4e-change-filenames-when-moving t
-	mu4e-sent-messages-behavior 'delete
+
 	mu4e-compose-context-policy 'ask-if-none
 	mu4e-maildir-shortcuts '(("/personal/inbox" . ?i)
 				 ("/work/inbox" . ?w))
@@ -401,6 +401,7 @@ Most of these variables are self-explanitory. Some make mu4e work better with gm
 		      ( mu4e-sent-folder       . "/personal/sent")
 		      ( mu4e-drafts-folder     . "/personal/drafts")
 		      ( mu4e-refile-folder     . "/personal/archive")
+		      ( mu4e-sent-messages-behavior . delete) ;gmail handles sent messages
 		      ( mu4e-headers-skip-duplicates . t)))
 	   ,(make-mu4e-context
 	     :name "Work"
@@ -415,7 +416,8 @@ Most of these variables are self-explanitory. Some make mu4e work better with gm
 		      ( mu4e-trash-folder		. "/work/trash")
 		      ( mu4e-sent-folder		. "/work/sent")
 		      ( mu4e-drafts-folder	. "/work/drafts")
-		      ( mu4e-refile-folder	. "/work/archive")))))
+		      ( mu4e-refile-folder	. "/work/archive")
+		      ( mu4e-sent-messages-behavior . sent)))))
 #+END_SRC
 
 Get a desktop notification on update.
