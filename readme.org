@@ -80,6 +80,11 @@ Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose tra
         calendar-longitude -122.30
         calendar-location-name "Seattle, WA")
 #+END_SRC
+** Ispell Personal Dictionary
+This file is where I store words I want added to my dictionary so they aren't marked as misspelled.
+#+BEGIN_SRC emacs-lisp
+  (setf ispell-personal-dictionary "~/org/dictionary")
+#+END_SRC
 * Auth Sources
 Auth sources let you store credentials for services you use in emacs. This way you don't need to keep passwords in plain text in your config.
 #+BEGIN_SRC emacs-lisp
@@ -502,6 +507,7 @@ ERC Settings
 * Hooks
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'after-init-hook 'global-company-mode)
   (add-hook 'message-mode-hook 'turn-on-orgtbl)
   (add-hook 'message-mode-hook 'turn-on-orgstruct++)
