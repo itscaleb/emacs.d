@@ -17,17 +17,18 @@ A nice benefit of this approach (in addition to all the benefits of nix) is that
 ** Global Settings
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
 #+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode 1)
-  (global-auto-revert-mode t)
-  (setf indent-tabs-mode nil
-	initial-buffer-choice "~/org/splash.org"
-	vc-follow-symlinks t
-	confirm-kill-emacs 'y-or-n-p
-	backup-directory-alist '(("." . "~/.emacs.d/backup")))
-  (add-to-list 'exec-path "~/.nix-profile/bin")
-  (require 'server)
-  (unless (server-running-p)
-    (server-start))
+    (global-hl-line-mode 1)
+    (global-auto-revert-mode t)
+    (setf indent-tabs-mode nil
+	  initial-buffer-choice "~/org/splash.org"
+	  vc-follow-symlinks t
+	  confirm-kill-emacs 'y-or-n-p
+	  backup-directory-alist '(("." . "~/.emacs.d/backup")))
+    (add-to-list 'exec-path "~/.nix-profile/bin")
+    (add-to-list 'load-path "~/.emacs.d/lisp")
+    (require 'server)
+    (unless (server-running-p)
+      (server-start))
 #+END_SRC
 ** Input Method Stuff
 This sets up japanese input within emacs. You probably don't need this if you have it set up through your OS?
@@ -332,10 +333,6 @@ I use this to connect to google hangouts/talk. It doesn't offer all the features
                                      jabber-message-scroll
                                      jabber-message-wave))
 #+END_SRC
-* BBDB
-#+BEGIN_SRC emacs-lisp
-  (setf bbdb-file "~/org/bbdb.gpg")
-#+END_SRC
 * Email
 After a few tries, I've settled on using mu4e for reading email. mu4e leverages mu, which is a set of tools to index and search emails stored in Maildir format.
 
@@ -402,7 +399,7 @@ Most of these variables are self-explanitory. Some make mu4e work better with gm
 	     :vars '( ( user-mail-address      . "caleb.gossler@gmail.com"  )
 		      ( user-full-name         . "Caleb Gossler" )
 		      ( smtpmail-smtp-server   . "smtp.gmail.com")
-		      ( mu4e-compose-signature . "Caleb Gossler")
+		      ( mu4e-compose-signature . "Caleb Gossler\nPGP: 94EE 36DD")
 		      ( mu4e-trash-folder      . "/personal/trash")
 		      ( mu4e-sent-folder       . "/personal/sent")
 		      ( mu4e-drafts-folder     . "/personal/drafts")
@@ -438,6 +435,17 @@ This hook seems to help when sending email, preventing newlines from appearing i
 #+BEGIN_SRC emacs-lisp
   (add-hook 'mu4e-compose-mode-hook (lambda ()
 				      (setf use-hard-newlines nil)))
+#+END_SRC
+* BBDB
+#+BEGIN_SRC emacs-lisp
+  (autoload 'bbdb-insinuate-mu4e "bbdb-mu4e")
+  (bbdb-initialize 'message 'mu4e)
+  (setf bbdb-file "~/org/bbdb.gpg")
+  (setq bbdb-mail-user-agent (quote message-user-agent))
+  (setq mu4e-view-mode-hook (quote (bbdb-mua-auto-update visual-line-mode)))
+  (setq mu4e-compose-complete-addresses nil)
+  (setq bbdb-mua-pop-up t)
+  (setq bbdb-mua-pop-up-window-size 5)
 #+END_SRC
 * IRC
 This function has ERC connect to every IRC network entry in your authinfo file.
