@@ -183,7 +183,7 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
 	  ("e" "Add Entry to Clocked in Entry" item (clock)
 	   "* %?\n  Created: %U\n  Context: %a\n  %i")
           ("n" "Add Note to Clocked in Entry" item (clock)
-           "+ %? (%<%r>)")
+           "+ %i%? (%<%r>)")
           ("b" "Add Checkbox to Clocked in Entry" item (clock)
            "+ [ ] %? (%<%r>)" :prepend t)
           ("a" "Add Task to Clocked in Entry" entry (clock)
