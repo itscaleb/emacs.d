@@ -20,7 +20,7 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
     (global-hl-line-mode 1)
     (global-auto-revert-mode t)
     (setf indent-tabs-mode nil
-	  initial-buffer-choice "~/org/splash.org"
+	  initial-buffer-choice 'elfeed
 	  vc-follow-symlinks t
 	  confirm-kill-emacs 'y-or-n-p
 	  backup-directory-alist '(("." . "~/.emacs.d/backup")))
@@ -86,7 +86,6 @@ This file is where I store words I want added to my dictionary so they aren't ma
 	appt-message-warning-time 15
 	diary-number-of-entries 3)
   (appt-activate 1)
-  (diary)
 #+END_SRC
 * Auth Sources
 Auth sources let you store credentials for services you use in emacs. This way you don't need to keep passwords in plain text in your config.
@@ -479,6 +478,13 @@ ERC Settings
 	erc-log-insert-log-on-open t
 	erc-log-write-after-insert t
 	erc-log-channels-directory "~/org/irc-logs")
+#+END_SRC
+* RSS
+#+BEGIN_SRC emacs-lisp
+  (elfeed-goodies/setup)
+  (setf elfeed-db-directory "~/org/elfeed-db"
+	elfeed-feeds '(("http://www.planet.emacsen.org/atom.xml" emacs))
+	elfeed-goodies/entry-pane-position 'bottom)
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
