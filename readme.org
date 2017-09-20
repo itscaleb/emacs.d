@@ -107,22 +107,29 @@ The =org-drill-all= command scans for flashcards throughout all my notes and sta
 
 Now that's loaded so we can start setting some options.
 #+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'org-display-inline-images)
+  (add-hook 'org-babel-after-execute-hook (lambda ()
+					    (when org-inline-image-overlays
+					      (org-redisplay-inline-images))))
+
   (require 'cl)
   (require 'org-drill)
   (require 'org-habit)
   (setf org-agenda-files '("~/org/agenda")
-        org-refile-targets '((org-agenda-files :maxlevel . 2))
-        org-startup-indented t
-        org-agenda-span 'day
-        org-log-into-drawer t
-        org-clock-idle-time 10
-        org-return-follows-link t
-        org-special-ctrl-a/e t
-        org-pretty-entities t
-        org-pretty-entities-include-sub-superscripts t
-        org-agenda-skip-scheduled-if-deadline-is-shown t
-        org-drill-learn-fraction 0.3
-        org-log-done 'time)
+	org-refile-targets '((org-agenda-files :maxlevel . 2))
+	org-startup-indented t
+	org-agenda-span 'day
+	org-log-into-drawer t
+	org-clock-idle-time 10
+	org-return-follows-link t
+	org-special-ctrl-a/e t
+	org-pretty-entities t
+	org-pretty-entities-include-sub-superscripts t
+	org-agenda-skip-scheduled-if-deadline-is-shown t
+	org-drill-learn-fraction 0.3
+	org-log-done 'time)
 #+END_SRC
 ** Configure Text Searching of my Notes
 If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in org files other than your agenda files. This enables evernote-like search features in Emacs!! I set it to include all org files (recursively) in my =~/org/notes/= directory.
@@ -145,13 +152,13 @@ Setting up keyword workflows.
 ** Org-babel
 I use ditaa a lot, this enables execution of ditaa code blocks
 #+BEGIN_SRC emacs-lisp
-  (setf org-ditaa-jar-path "/run/current-system/sw/lib/ditaa.jar")
+  (setf org-ditaa-jar-path "/run/current-system/sw/lib/ditaa.jar"
+	org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ditaa . t)
      (sql . t)
      (dot . t)))
-  (setf org-confirm-babel-evaluate nil)
 #+END_SRC
 ** Org-capture
 If any capture doesn't specify a target, fall back to =inbox.org=.
@@ -522,11 +529,16 @@ ERC Settings
 #+END_SRC
 * Hooks
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook 'visual-line-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'after-init-hook 'global-company-mode)
   (add-hook 'message-mode-hook 'turn-on-orgtbl)
   (add-hook 'message-mode-hook 'turn-on-orgstruct++)
   (add-hook 'sql-interactive-mode-hook (lambda ()
 					 (toggle-truncate-lines t)))
+#+END_SRC
+* Yasnippet
+#+BEGIN_SRC emacs-lisp
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"))
+
+(yas-global-mode 1)
 #+END_SRC
