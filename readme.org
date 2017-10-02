@@ -7,6 +7,7 @@ If the variables I'm setting aren't clear what they're used for, use =\C-h v= an
 I want my customization information going to a file other than the emacs config file. I don't like the constant churn in my main config file when I make a change through customize.
 #+BEGIN_SRC emacs-lisp
   (setf custom-file "~/.emacs.d/emacs-custom.el")
+  (add-to-list 'Info-directory-list (expand-file-name "~/org/info"))
   (load custom-file t)
 #+END_SRC
 * Packages
