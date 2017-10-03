@@ -7,7 +7,6 @@ If the variables I'm setting aren't clear what they're used for, use =\C-h v= an
 I want my customization information going to a file other than the emacs config file. I don't like the constant churn in my main config file when I make a change through customize.
 #+BEGIN_SRC emacs-lisp
   (setf custom-file "~/.emacs.d/emacs-custom.el")
-  (add-to-list 'Info-directory-list (expand-file-name "~/org/info"))
   (load custom-file t)
 #+END_SRC
 * Packages
@@ -27,6 +26,8 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
 	  backup-directory-alist '(("." . "~/.emacs.d/backup")))
     (add-to-list 'exec-path "~/.nix-profile/bin")
     (add-to-list 'load-path "~/.emacs.d/lisp")
+    (setq tab-always-indent 'complete)
+    (add-to-list 'Info-directory-list (expand-file-name "~/org/info"))
     (require 'server)
     (unless (server-running-p)
       (server-start))
@@ -159,7 +160,9 @@ I use ditaa a lot, this enables execution of ditaa code blocks
    'org-babel-load-languages
    '((ditaa . t)
      (sql . t)
-     (dot . t)))
+     (dot . t)
+     (racket . t)))
+  (setq org-babel-racket-command "racket")
 #+END_SRC
 ** Org-capture
 If any capture doesn't specify a target, fall back to =inbox.org=.
@@ -454,6 +457,14 @@ This hook seems to help when sending email, preventing newlines from appearing i
   (setq mu4e-compose-complete-addresses nil)
   (setq bbdb-mua-pop-up t)
   (setq bbdb-mua-pop-up-window-size 5)
+#+END_SRC
+* Racket
+#+BEGIN_SRC emacs-lisp
+(add-hook 'racket-mode-hook
+          (lambda ()
+            (define-key racket-mode-map (kbd "C-c r") 'racket-run)))
+(add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
+(add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
 #+END_SRC
 * IRC
 This function has ERC connect to every IRC network entry in your authinfo file.
