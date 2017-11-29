@@ -590,3 +590,25 @@ directory to make multiple eshell windows easier."
     ;;(insert (concat "ls"))
     (eshell-send-input)))
 #+END_SRC
+* IBuffer
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (setq ibuffer-saved-filter-groups
+        '(("default"
+           ("Dired" (mode . dired-mode))
+           ("Magit" (name . "*magit"))
+           ("Mail" (or (name . "*mu4e*")
+                       (mode . mu4e-compose-mode)))
+           ("ERC" (mode . erc-mode))
+           ("Elfeed" (name . "*elfeed"))
+           ("Help" (or
+                    (name . "*Help*")
+                    (name . "*Apropos*")
+                    (name . "*info*")))
+           ("Org" (or (mode . org-mode)
+                      (mode . org-agenda-mode))))))
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-auto-mode 1)
+              (ibuffer-switch-to-saved-filter-groups "default")))
+#+END_SRC
