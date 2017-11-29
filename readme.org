@@ -507,6 +507,11 @@ ERC Settings
 	erc-log-write-after-insert t
 	erc-log-channels-directory "~/org/irc-logs")
 #+END_SRC
+* Eyebrowse
+#+BEGIN_SRC emacs-lisp
+  (eyebrowse-mode t)
+  (setf eyebrowse-new-workspace t)
+#+END_SRC
 * RSS
 #+BEGIN_SRC emacs-lisp
   (elfeed-goodies/setup)
