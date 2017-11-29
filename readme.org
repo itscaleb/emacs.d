@@ -385,6 +385,9 @@ Most of these variables are self-explanitory. Some make mu4e work better with gm
 #+BEGIN_SRC emacs-lisp
   (require 'mu4e)
   (require 'org-mu4e)
+
+  (global-set-key (kbd "C-c m") 'mu4e)
+
   (setf mu4e-maildir "~/.mail"
 	mu4e-view-show-images t
 	mu4e-update-interval 300
