@@ -167,7 +167,10 @@ I use ditaa a lot, this enables execution of ditaa code blocks
    '((ditaa . t)
      (sql . t)
      (dot . t)
-     (racket . t)))
+     (racket . t)
+     (shell . t)
+     (restclient . t)
+     (python . t)))
   (setq org-babel-racket-command "racket")
 #+END_SRC
 ** Org-capture
@@ -233,64 +236,17 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 #+END_SRC
 ** Custom Agenda Commands
 #+BEGIN_SRC emacs-lisp
-    (defun org-agenda-exclude-tag (tag)
-      (let ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
-            (current-headline (or (and (org-at-heading-p)
-                                       (point))
-				  (save-excursion (org-back-to-heading)))))
-	(if (member tag (org-get-tags-at current-headline))
-	    next-headline
-	  nil)))
-
-    (defun org-agenda-include-tag (tag)
-      (let ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
-            (current-headline (or (and (org-at-heading-p)
-                                       (point))
-				  (save-excursion (org-back-to-heading)))))
-	(if (not (member tag (org-get-tags-at current-headline)))
-	    next-headline
-	  nil)))
-
-    (setf org-agenda-custom-commands
-	  '(("n" "Agenda and all TODOs"
-             ((agenda "")
-              (alltodo "" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-			   (org-agenda-overriding-header "Unscheduled Entries:")))))
-            ("w" . "WORK Agenda Commands")
-	    ("wn" "Work agenda and all TODOs"
-	     ((tags "+work+PRIORITY=\"A\"" ((org-agenda-overriding-header "High Priority:")))
-	      (agenda "" ((org-agenda-skip-function '(org-agenda-include-tag "work"))))
-	      (tags-todo "+work-standup-question" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-						   (org-agenda-overriding-header "Unscheduled Entries:")
-						   (org-agenda-sorting-strategy '(todo-state-down))))
-	      (tags-todo "+work+standup" ((org-agenda-overriding-header "Standup Items:")))
-	      (tags-todo "+work+question" ((org-agenda-overriding-header "Open Questions:")))))
-            ("ws" "Standup tagged entries" tags-todo "+work+standup")
-	    ("wq" "Question tagged entries" tags "+work+question")
-            ("wr" "Entries that need to be sorted" tags "work+sort")
-	    ("h" . "HOME Agenda Commands")
-	    ("hp" "Personal Agenda"
-	     ((tags-todo "PRIORITY=\"A\"+personal" ((org-agenda-overriding-header "High Priority")))
-	      (agenda "" ((org-agenda-skip-function '(org-agenda-include-tag "personal"))))
-	      (tags-todo "personal+inbox" ((org-agenda-overriding-header "Inbox:")))
-	      (tags-todo "personal" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-				     (org-agenda-overriding-header "Unscheduled Entries:")))))
-	    ("hs" "Study Agenda"
-	     ((tags-todo "PRIORITY=\"A\"+study" ((org-agenda-overriding-header "High Priority")))
-	      (agenda "" ((org-agenda-skip-function '(org-agenda-include-tag "study"))))
-	      (tags-todo "+study+inbox" ((org-agenda-overriding-header "Inbox:")))
-	      (tags-todo "+study+backlog" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-					   (org-agenda-overriding-header "Study Backlog:"))))
-	     ((org-agenda-prefix-format '((agenda . "  %?-12t% s")(tags . "  ")))))
-	    ("hh" "Home Agenda"
-	     ((agenda "" ((org-agenda-skip-function '(org-agenda-exclude-tag "work"))))
-	      (tags-todo "PRIORITY=\"A\"+personal|PRIORITY=\"A\"+study" ((org-agenda-overriding-header "Finish This Week")))
-	      (tags-todo "study+current" ((org-agenda-overriding-header "Currently Studying")))
-	      (tags-todo "personal+inbox|study+inbox|inbox-work" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-								  (org-agenda-overriding-header "Inbox:")))
-	      (tags-todo "personal|study-backlog" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-						   (org-agenda-overriding-header "Unscheduled Entries:"))))
-	     ((org-agenda-prefix-format '((agenda . "  %?-12t% s")(tags . "  ")))))))
+  (setf org-agenda-custom-commands
+	'(("n" "Agenda and all TODOs"
+           ((agenda "")
+            (alltodo "" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
+			 (org-agenda-overriding-header "Unscheduled Entries:")))))
+    	  ("w" "Work agenda and all TODOs"
+	   ((tags-todo "+work+inbox" ((org-agenda-overriding-header "Inbox:")))
+	    (tags-todo "+work+action" ((org-agenda-overriding-header "Next:")))
+	    (agenda "")
+	    (tags "+work+project" ((org-agenda-overriding-header "Projects:")))
+	    (tags-todo "+work+backlog" ((org-agenda-overriding-header "Backlog:")))))))
 #+END_SRC
 * Dired
 Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.
