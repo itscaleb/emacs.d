@@ -158,7 +158,12 @@ Setting up keyword workflows.
   (org-clock-persistence-insinuate)
 #+END_SRC
 ** Org-babel
-I use ditaa a lot, this enables execution of ditaa code blocks
+I have a file of babel functions that I want available in every org file.
+#+BEGIN_SRC emacs-lisp
+  (org-babel-lob-ingest "~/org/babel/library.org")
+#+END_SRC
+
+This enables execution of various code blocks
 #+BEGIN_SRC emacs-lisp
   (setf org-ditaa-jar-path "/run/current-system/sw/lib/ditaa.jar"
 	org-confirm-babel-evaluate nil)
