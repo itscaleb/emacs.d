@@ -17,8 +17,9 @@ A nice benefit of this approach (in addition to all the benefits of nix) is that
 ** Global Settings
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
 #+BEGIN_SRC emacs-lisp
-    (global-hl-line-mode 1)
+    (global-hl-line-mode t)
     (global-auto-revert-mode t)
+    (global-prettify-symbols-mode t)
     (setf indent-tabs-mode nil
 	  initial-buffer-choice 'elfeed
 	  vc-follow-symlinks t
@@ -493,11 +494,12 @@ ERC Settings
 #+END_SRC
 * RSS
 #+BEGIN_SRC emacs-lisp
-  (elfeed-goodies/setup)
-  (setf elfeed-db-directory "~/org/elfeed-db"
-	elfeed-feeds '(("http://www.planet.emacsen.org/atom.xml" emacs)
-		       ("https://nixos.org/news-rss.xml" nixos linux))
-	elfeed-goodies/entry-pane-position 'bottom)
+    (elfeed-goodies/setup)
+    (setf elfeed-db-directory "~/org/elfeed-db"
+	  elfeed-feeds '(("http://www.planet.emacsen.org/atom.xml" emacs)
+			 ("https://nixos.org/news-rss.xml" nixos linux)
+			 ("http://podcast.nintendopower.com/feed.xml" nintendo podcast))
+	  elfeed-goodies/entry-pane-position 'bottom)
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
