@@ -277,10 +277,28 @@ Dired-X adds some nice features, one of them is doing file operations async. A m
 It's very convenient to be able to control music from within Emacs. I use it mostly to play streams.
 #+BEGIN_SRC emacs-lisp
   (require 'emms-setup)
-  (emms-all)
+  (require 'emms-streams)
+  (require 'emms-stream-info)
+  (setq emms-directory "~/org/emms"
+	emms-stream-default-action "play"
+	emms-stream-info-backend 'mplayer
+	emms-stream-bookmarks-file "~/org/emms/streams"
+	emms-mode-line-format " 𝄞 ")
+
+  (emms-minimalistic)
   (emms-default-players)
-  (require 'emms-history)
-  (emms-history-load)
+
+  (advice-add 'emms-stream-info-mplayer-backend
+	      :override
+	      (lambda (url)
+		"The original function isn't working, using this temporarily until I figure it out."
+		(condition-case excep
+		    (call-process "mplayer" nil t nil
+				  "-msglevel" "decaudio=-1:cache=-1:statusline=-1:cplayer=-1" "-cache" "180"
+				  "-endpos" "0" "-vo" "null" "-ao" "null" "-playlist"
+				  url)
+		  (file-error
+		   (error "Could not find the mplayer backend binary")))))
 #+END_SRC
 * EasyPG
 Use gpg2 instead of gpg
