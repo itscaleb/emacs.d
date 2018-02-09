@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: org-drill-definition-region
+# key: odd
+# binding: C-c d d
+# expand-env ((yas-indent-line 'fixed))
+# --
+`(make-string (1+ (org-current-level)) ?*)` Definition :drill:
+$1
+`(make-string (+ 2 (org-current-level)) ?*)` Answer
+`yas-selected-text`

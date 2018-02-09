@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: org-drill-statement-region
+# key: ods
+# binding: C-c d s
+# expand-env ((yas-indent-line 'fixed))
+# --
+`(make-string (1+ (org-current-level)) ?*)` ${1:Statement} :drill:
+`yas-selected-text`
