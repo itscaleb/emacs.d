@@ -289,6 +289,7 @@ It's very convenient to be able to control music from within Emacs. I use it mos
 
   (emms-minimalistic)
   (emms-default-players)
+  (emms-mode-line-enable)
 
   (advice-add 'emms-stream-info-mplayer-backend
 	      :override
