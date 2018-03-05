@@ -152,7 +152,7 @@ Note: =\C-a s= brings up the search prompt in the minibuffer.
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
-	'((sequence "TODO(t)" "IN PROGRESS(i)" "ON HOLD(h)" "IN REVIEW(r)" "FOLLOW-UP(f)" "BLOCKED(b)" "|" "DONE(d!)" "CANCELLED(c!)")))
+	'((sequence "TODO(t)" "IN PROGRESS(i)" "ON HOLD(h)" "IN REVIEW(r)" "FOLLOW-UP(f)" "BLOCKED(b)" "RELEASE(E)" "|" "DONE(d!)" "CANCELLED(c!)")))
 #+END_SRC
 ** Clocking
 #+BEGIN_SRC emacs-lisp
