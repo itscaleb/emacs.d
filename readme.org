@@ -495,12 +495,11 @@ ERC Settings
 #+END_SRC
 * RSS
 #+BEGIN_SRC emacs-lisp
-    (elfeed-goodies/setup)
-    (setf elfeed-db-directory "~/org/elfeed-db"
-	  elfeed-feeds '(("http://www.planet.emacsen.org/atom.xml" emacs)
-			 ("https://nixos.org/news-rss.xml" nixos linux)
-			 ("http://podcast.nintendopower.com/feed.xml" nintendo podcast))
-	  elfeed-goodies/entry-pane-position 'bottom)
+  (elfeed-org)
+  (elfeed-goodies/setup)
+  (setf elfeed-db-directory "~/org/elfeed-db"
+	elfeed-goodies/entry-pane-position 'bottom
+	rmh-elfeed-org-files '("~/org/rss.org"))
 #+END_SRC
 * Some Extra Commands
 + Sometimes I export an org document to UTF plain text, but need to paste it into an email. This is helpful to get rid of "fill"
