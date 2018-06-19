@@ -128,18 +128,19 @@ Now that's loaded so we can start setting some options.
   (require 'org-drill)
   (require 'org-habit)
   (setf org-agenda-files '("~/org/agenda")
-	org-refile-targets '((org-agenda-files :maxlevel . 2))
-	org-startup-indented t
-	org-agenda-span 'day
-	org-log-into-drawer t
-	org-clock-idle-time 10
-	org-return-follows-link t
-	org-special-ctrl-a/e t
-	org-pretty-entities t
-	org-pretty-entities-include-sub-superscripts t
-	org-agenda-skip-scheduled-if-deadline-is-shown t
-	org-drill-learn-fraction 0.3
-	org-log-done 'time)
+        org-refile-targets '((org-agenda-files :maxlevel . 2))
+        org-startup-indented t
+        org-agenda-span 'day
+        org-log-into-drawer t
+        org-clock-idle-time 10
+        org-return-follows-link t
+        org-special-ctrl-a/e t
+        org-pretty-entities t
+        org-pretty-entities-include-sub-superscripts t
+        org-agenda-skip-scheduled-if-deadline-is-shown t
+        org-drill-learn-fraction 0.3
+        org-drill-add-random-noise-to-intervals-p t
+        org-log-done 'time)
 #+END_SRC
 ** Configure Text Searching of my Notes
 If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in org files other than your agenda files. This enables evernote-like search features in Emacs!! I set it to include all org files (recursively) in my =~/org/notes/= directory.
@@ -152,7 +153,7 @@ Note: =\C-a s= brings up the search prompt in the minibuffer.
 Setting up keyword workflows.
 #+BEGIN_SRC emacs-lisp
   (setf org-todo-keywords
-	'((sequence "TODO(t)" "IN PROGRESS(i)" "ON HOLD(h)" "IN REVIEW(r)" "FOLLOW-UP(f)" "BLOCKED(b)" "RELEASE(E)" "|" "DONE(d!)" "CANCELLED(c!)")))
+        '((sequence "TODO(t)" "IN PROGRESS(i)" "ON HOLD(h)" "IN REVIEW(r)" "FOLLOW-UP(f)" "BLOCKED(b)" "RELEASE(e)" "|" "DONE(d!)" "CANCELLED(c!)")))
 #+END_SRC
 ** Clocking
 #+BEGIN_SRC emacs-lisp
@@ -202,7 +203,7 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
           ("fv" "Vocabulary" entry (file+headline (lambda () (buffer-file-name)) "Flash Cards")
            "* Vocabulary :drill:\n:PROPERTIES:\n:DRILL_CARD_TYPE: twosided\n:END:\n** Japanese\n%?\n** English\n\nExample:\n")
           ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
-           "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer)
+           "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer t)
           ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
            "* %? %^g\n\nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
           ("r" "Random" entry (file "~/org/agenda/random.org.gpg")
