@@ -202,7 +202,7 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
           ("fv" "Vocabulary" entry (file+headline (lambda () (buffer-file-name)) "Flash Cards")
            "* Vocabulary :drill:\n:PROPERTIES:\n:DRILL_CARD_TYPE: twosided\n:END:\n** Japanese\n%?\n** English\n\nExample:\n")
           ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
-           "* TODO %?\n  Created: %U\n  Context: %a\n  %i" :kill-buffer t)
+           "* TODO %?\n  Created: %U\n  Context: %a\n  %i")
           ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
            "* %? %^g\n\nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
           ("r" "Random" entry (file "~/org/agenda/random.org.gpg")
@@ -243,17 +243,12 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 #+END_SRC
 ** Custom Agenda Commands
 #+BEGIN_SRC emacs-lisp
-  (setf org-agenda-custom-commands
-	'(("n" "Agenda and all TODOs"
-           ((agenda "")
-            (alltodo "" ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))
-			 (org-agenda-overriding-header "Unscheduled Entries:")))))
-    	  ("w" "Work agenda and all TODOs"
-	   ((tags-todo "+work+inbox" ((org-agenda-overriding-header "Inbox:")))
-	    (tags-todo "+work+action" ((org-agenda-overriding-header "Next:")))
-	    (agenda "")
-	    (tags "+work+project" ((org-agenda-overriding-header "Projects:")))
-	    (tags-todo "+work+backlog" ((org-agenda-overriding-header "Backlog:")))))))
+    (setf org-agenda-custom-commands
+          '(("n" "Agenda and all TODOs"
+             ((agenda "")))
+            ("w" "Work agenda and all TODOs"
+             ((tags-todo "+work+action" ((org-agenda-overriding-header "Next:")))
+              (agenda "" ((org-agenda-overriding-header "Today's Agenda:")))))))
 #+END_SRC
 * Dired
 Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.
