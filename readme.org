@@ -177,7 +177,6 @@ This enables execution of various code blocks
      (dot . t)
      (racket . t)
      (shell . t)
-     (restclient . t)
      (python . t)))
   (setq org-babel-racket-command "racket")
 #+END_SRC
@@ -489,11 +488,6 @@ ERC Settings
 	erc-log-insert-log-on-open t
 	erc-log-write-after-insert t
 	erc-log-channels-directory "~/org/irc-logs")
-#+END_SRC
-* Eyebrowse
-#+BEGIN_SRC emacs-lisp
-  (eyebrowse-mode t)
-  (setf eyebrowse-new-workspace t)
 #+END_SRC
 * RSS
 #+BEGIN_SRC emacs-lisp
