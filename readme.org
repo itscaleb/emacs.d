@@ -190,25 +190,16 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
 #+BEGIN_SRC emacs-lisp
   (setf org-capture-templates
         '(("c" "Clock into new")
-          ("ct" "Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
+          ("ct" "Task" entry (file+headline "~/org/agenda/inbox.org" "Inbox")
            "* TODO %?\nSCHEDULED: %T Created: %U\n  Context: %a\n  %i" :clock-in t :clock-keep t)
           ("cm" "Meeting" entry (file+datetree "~/org/agenda/meetings.org")
            "* %?\n** Details\n  + *Agenda*:\n  + *Attendees*:\n" :clock-in t :clock-keep t)
-          ("f" "Create flash card")
-          ("fd" "Definition" entry (file+headline (lambda () (buffer-file-name)) "Flash Cards")
-           "* Definition :drill:\n(from: %a)\n%?\n** Answer\n")
-          ("fs" "Statement" entry (file+headline (lambda () (buffer-file-name)) "Flash Cards")
-           "* Statement :drill:\n(from: %a)\n%?")
-          ("fv" "Vocabulary" entry (file+headline (lambda () (buffer-file-name)) "Flash Cards")
-           "* Vocabulary :drill:\n:PROPERTIES:\n:DRILL_CARD_TYPE: twosided\n:END:\n** Japanese\n%?\n** English\n\nExample:\n")
-          ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Tasks")
+          ("t" "New Task" entry (file+headline "~/org/agenda/inbox.org" "Inbox")
            "* TODO %?\n  Created: %U\n  Context: %a\n  %i")
           ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
            "* %? %^g\n\nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
           ("r" "Random" entry (file "~/org/agenda/random.org.gpg")
            "* %?\nCreated At: %U" :empty-lines-after 1 :kill-buffer t)
-          ("e" "Add Entry to Clocked in Entry" item (clock)
-           "* %?\n  Created: %U\n  Context: %a\n  %i")
           ("n" "Add Note to Clocked in Entry" item (clock)
            "+ %i%? (%<%r>)")
           ("b" "Add Checkbox to Clocked in Entry" item (clock)
@@ -243,12 +234,18 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 #+END_SRC
 ** Custom Agenda Commands
 #+BEGIN_SRC emacs-lisp
-    (setf org-agenda-custom-commands
-          '(("n" "Agenda and all TODOs"
-             ((agenda "")))
-            ("w" "Work agenda and all TODOs"
-             ((tags-todo "+work+action" ((org-agenda-overriding-header "Next:")))
-              (agenda "" ((org-agenda-overriding-header "Today's Agenda:")))))))
+  (setf org-agenda-custom-commands
+        '(("n" "Agenda and all TODOs"
+           ((agenda "")))
+          ("w" "Work agenda and all TODOs"
+           ((agenda "")
+            (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
+            (tags-todo "+action+work" ((org-agenda-overriding-header "Actions:")))))
+          ("p" "Personal agenda"
+           ((agenda "")
+            (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
+            (tags "+studying" ((org-agenda-overriding-header "Currently Studying:")))
+            (tags-todo "+action-work" ((org-agenda-overriding-header "Actions:")))))))
 #+END_SRC
 * Dired
 Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.
