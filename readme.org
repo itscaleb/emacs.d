@@ -198,6 +198,8 @@ If any capture doesn't specify a target, fall back to =inbox.org=.
            "* TODO %?\n  Created: %U\n  Context: %a\n  %i")
           ("j" "New Journal Entry" entry (file+datetree "~/org/agenda/journal.org.gpg")
            "* %? %^g\n\nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
+          ("l" "New Log Entry" entry (file+datetree "~/org/agenda/log.org.gpg")
+           "* %? \nPosted At: %U" :empty-lines-after 1 :kill-buffer t)
           ("r" "Random" entry (file "~/org/agenda/random.org.gpg")
            "* %?\nCreated At: %U" :empty-lines-after 1 :kill-buffer t)
           ("n" "Add Note to Clocked in Entry" item (clock)
@@ -237,15 +239,43 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
   (setf org-agenda-custom-commands
         '(("n" "Agenda and all TODOs"
            ((agenda "")))
-          ("w" "Work agenda and all TODOs"
+          ("o" "Overview"
            ((agenda "")
             (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
-            (tags-todo "+action+work" ((org-agenda-overriding-header "Actions:")))))
-          ("p" "Personal agenda"
-           ((agenda "")
-            (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
-            (tags "+studying" ((org-agenda-overriding-header "Currently Studying:")))
-            (tags-todo "+action-work" ((org-agenda-overriding-header "Actions:")))))))
+            (todo "IN PROGRESS" ((org-agenda-overriding-header "In Progress:")))
+            (todo "ON HOLD" ((org-agenda-overriding-header "On Hold:")))
+            (todo "IN REVIEW" ((org-agenda-overriding-header "In Review:")))
+            (todo "FOLLOW-UP" ((org-agenda-overriding-header "Follow-up:")))
+            (todo "BLOCKED" ((org-agenda-overriding-header "Blocked:")))))
+          ("s" "Study"
+           ((todo "READING" ((org-agenda-overriding-header "Currently Reading")))
+            (todo "TO-WATCH" ((org-agenda-overriding-header "Videos to Watch")))
+            (todo "RESEARCH")))
+          ("w" "Work"
+           ((agenda)
+            (todo "REVIEW" ((org-agenda-overriding-header "Code Reviews:")))
+            (todo "TODO" ((org-agenda-overriding-header "Backlog:")))
+            (todo "RESEARCH" ((org-agenda-overriding-header "Research"))))
+           ((org-agenda-category-filter-preset '("+work"))))))
+#+END_SRC
+** Org-Publish
+#+BEGIN_SRC emacs-lisp
+    (setq org-publish-project-alist
+               '(("homepage"
+                  :base-directory "~/org/website/"
+                  :publishing-directory "~/website"
+                  :publishing-function org-html-publish-to-html)
+                 ("notes"
+                  :base-directory "~/org/website/notes"
+                  :publishing-directory "~/website/notes"
+                  :publishing-function org-html-publish-to-html
+                  :makeindex t
+                  :auto-sitemap t
+                  :sitemap-filename "index.org"
+                  :sitemap-title "My Notes"
+                  :sitemap-format-entry my-org-publish-sitemap
+                  :sitemap-style list
+                  :recursive t)))
 #+END_SRC
 * Dired
 Dired renders a buffer that it builds off of a call to =ls=. Here we can customize the switches passed to it.
