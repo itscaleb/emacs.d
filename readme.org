@@ -65,6 +65,8 @@ This sets up japanese input within emacs. You probably don't need this if you ha
   (show-paren-mode t)
   (menu-bar-mode -1)
   (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (fringe-mode 1)
 #+END_SRC
 Turn the clock on in the mode-line. I tend to never leave Emacs, so I'd lose track of time otherwise! By default it also shows the load-average, but I'm not really worried about that so I turned it off.
 #+BEGIN_SRC emacs-lisp
@@ -87,8 +89,9 @@ This file is where I store words I want added to my dictionary so they aren't ma
 ** Calendar Settings
 #+BEGIN_SRC emacs-lisp
   (setf diary-file "~/org/diary"
-	appt-message-warning-time 15
-	diary-number-of-entries 3)
+        appt-message-warning-time 15
+        diary-number-of-entries 3
+        appt-display-diary nil)
   (appt-activate 1)
 #+END_SRC
 * Auth Sources
@@ -237,22 +240,18 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
 ** Custom Agenda Commands
 #+BEGIN_SRC emacs-lisp
   (setf org-agenda-custom-commands
-        '(("n" "Agenda and all TODOs"
-           ((agenda "")))
-          ("o" "Overview"
-           ((agenda "")
-            (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
-            (todo "IN PROGRESS" ((org-agenda-overriding-header "In Progress:")))
-            (todo "ON HOLD" ((org-agenda-overriding-header "On Hold:")))
-            (todo "IN REVIEW" ((org-agenda-overriding-header "In Review:")))
-            (todo "FOLLOW-UP" ((org-agenda-overriding-header "Follow-up:")))
-            (todo "BLOCKED" ((org-agenda-overriding-header "Blocked:")))))
+        '(("a" "Combined Agenda"
+           ((agenda)
+            (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))))
           ("s" "Study"
-           ((todo "READING" ((org-agenda-overriding-header "Currently Reading")))
+           ((agenda)
+            (todo "READING" ((org-agenda-overriding-header "Currently Reading")))
             (todo "TO-WATCH" ((org-agenda-overriding-header "Videos to Watch")))
-            (todo "RESEARCH")))
+            (todo "RESEARCH"))
+           ((org-agenda-category-filter-preset '("+study"))))
           ("w" "Work"
            ((agenda)
+            (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
             (todo "REVIEW" ((org-agenda-overriding-header "Code Reviews:")))
             (todo "TODO" ((org-agenda-overriding-header "Backlog:")))
             (todo "RESEARCH" ((org-agenda-overriding-header "Research"))))
@@ -389,6 +388,7 @@ Most of these variables are self-explanitory. Some make mu4e work better with gm
 #+BEGIN_SRC emacs-lisp
   (require 'mu4e)
   (require 'org-mu4e)
+  (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
 
   (global-set-key (kbd "C-c m") 'mu4e)
 
