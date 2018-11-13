@@ -134,6 +134,7 @@ Now that's loaded so we can start setting some options.
         org-refile-targets '((org-agenda-files :maxlevel . 2))
         org-startup-indented t
         org-agenda-span 'day
+        org-agenda-todo-ignore-scheduled 'future
         org-log-into-drawer t
         org-clock-idle-time 10
         org-return-follows-link t
