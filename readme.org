@@ -21,7 +21,9 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
   (global-auto-revert-mode t)
   (global-prettify-symbols-mode t)
   (setf indent-tabs-mode nil
-        initial-buffer-choice 'elfeed
+        initial-buffer-choice (lambda ()
+                                (org-agenda nil "a")
+                                (delete-other-windows))
         vc-follow-symlinks t
         confirm-kill-emacs 'y-or-n-p
         backup-directory-alist '(("." . "~/.emacs.d/backup")))
