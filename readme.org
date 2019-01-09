@@ -20,6 +20,7 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
   (global-hl-line-mode t)
   (global-auto-revert-mode t)
   (global-prettify-symbols-mode t)
+  (dumb-jump-mode)
   (setf indent-tabs-mode nil
         initial-buffer-choice (lambda ()
                                 (org-agenda nil "a")
@@ -265,8 +266,10 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
            ((agenda)
             (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
             (todo "REVIEW" ((org-agenda-overriding-header "Code Reviews:")))
+            (todo "WAITING" ((org-agenda-overriding-header "Waiting:")))
+            (todo "IN-PROGRESS" ((org-agenda-overriding-header "In Progress:")))
             (todo "TODO" ((org-agenda-overriding-header "Backlog:")))
-            (todo "RESEARCH" ((org-agenda-overriding-header "Research"))))
+            (todo "RESEARCH" ((org-agenda-overriding-header "Research:"))))
            ((org-agenda-category-filter-preset '("+work"))))))
 #+END_SRC
 ** Org-Publish
