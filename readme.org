@@ -96,6 +96,14 @@ This file is where I store words I want added to my dictionary so they aren't ma
         appt-display-diary nil)
   (appt-activate 1)
 #+END_SRC
+* LilyPond
+#+BEGIN_SRC emacs-lisp
+(autoload 'LilyPond-mode "lilypond-mode")
+(setq auto-mode-alist
+      (cons '("\\.ly$" . LilyPond-mode) auto-mode-alist))
+
+(add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
+#+END_SRC
 * Auth Sources
 Auth sources let you store credentials for services you use in emacs. This way you don't need to keep passwords in plain text in your config.
 #+BEGIN_SRC emacs-lisp
@@ -183,7 +191,8 @@ This enables execution of various code blocks
      (dot . t)
      (racket . t)
      (shell . t)
-     (python . t)))
+     (python . t)
+     (lilypond . t)))
   (setq org-babel-racket-command "racket")
 #+END_SRC
 ** Org-capture
