@@ -486,6 +486,19 @@ This hook seems to help when sending email, preventing newlines from appearing i
   (setq bbdb-mua-pop-up t)
   (setq bbdb-mua-pop-up-window-size 5)
 #+END_SRC
+* Nodejs Config
+A quick hack to get nodejs and a few packages running in nix-repl
+#+BEGIN_SRC emacs-lisp
+(defun nix-node-command (packages)
+  (car
+   (last
+    (split-string
+     (shell-command-to-string
+      "nix-shell -p nodejs --run 'npm install ramda underscore'; which node")
+     "[\n]+" t))))
+
+(setq nodejs-repl-command #'nix-node-command)
+#+END_SRC
 * Racket
 #+BEGIN_SRC emacs-lisp
 (add-hook 'racket-mode-hook
