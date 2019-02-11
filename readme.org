@@ -256,9 +256,10 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
         '(("a" "Combined Agenda"
            ((agenda)
             (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))))
-          ("s" "Study"
+          ("t" "Study"
            ((agenda)
             (todo "READING" ((org-agenda-overriding-header "Currently Reading")))
+            (todo "PAUSED" ((org-agenda-overriding-header "On Hold")))
             (todo "TO-WATCH" ((org-agenda-overriding-header "Videos to Watch")))
             (todo "RESEARCH"))
            ((org-agenda-category-filter-preset '("+study"))))
