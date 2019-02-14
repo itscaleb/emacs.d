@@ -446,7 +446,7 @@ Most of these variables are self-explanitory. Some make mu4e work better with gm
                       ( mu4e-refile-folder     . "/personal/archive")
                       ( mu4e-sent-messages-behavior . delete) ;gmail handles sent messages
                       ( mu4e-headers-skip-duplicates . t)))
-           (make-mu4e-context
+           ,(make-mu4e-context
             :name "Work"
             :match-func (lambda (msg)
                           (when msg
