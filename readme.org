@@ -155,6 +155,7 @@ Now that's loaded so we can start setting some options.
         org-agenda-skip-scheduled-if-deadline-is-shown t
         org-drill-learn-fraction 0.3
         org-drill-add-random-noise-to-intervals-p t
+        org-drill-leech-method 'warn
         org-log-done 'time)
 #+END_SRC
 ** Configure Text Searching of my Notes
