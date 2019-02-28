@@ -50,7 +50,7 @@ This sets up japanese input within emacs. You probably don't need this if you ha
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
-  (global-set-key "\C-cj" 'org-clock-jump-to-current-clock)
+  (global-set-key "\C-cj" (lambda () (interactive) (org-clock-jump-to-current-clock)))
   (global-set-key "\C-s" 'swiper)
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
