@@ -270,8 +270,10 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
             (todo "REVIEW" ((org-agenda-overriding-header "Code Reviews:")))
             (todo "WAITING" ((org-agenda-overriding-header "Waiting:")))
             (todo "IN-PROGRESS" ((org-agenda-overriding-header "In Progress:")))
-            (todo "TODO" ((org-agenda-overriding-header "Backlog:")))
-            (todo "RESEARCH" ((org-agenda-overriding-header "Research:"))))
+            (todo "RESEARCH" ((org-agenda-overriding-header "Research:")))
+            (todo "READING" ((org-agenda-overriding-header "Reading:")))
+            (todo "TO-READ" ((org-agenda-overriding-header "To Read:")))
+            (todo "TODO" ((org-agenda-overriding-header "Backlog:"))))
            ((org-agenda-category-filter-preset '("+work"))))))
 #+END_SRC
 ** Org-Publish
