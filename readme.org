@@ -17,25 +17,27 @@ A nice benefit of this approach (in addition to all the benefits of nix) is that
 ** Global Settings
 Gotta turn off tabs, also enable auto-revert-mode so changes to the files outside of emacs update the buffers. Plus some other various stuff.
 #+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode t)
-  (global-auto-revert-mode t)
-  (global-prettify-symbols-mode t)
-  (dumb-jump-mode)
-  (setf indent-tabs-mode nil
-        initial-buffer-choice (lambda ()
-                                (org-agenda nil "a")
-                                (delete-other-windows))
-        vc-follow-symlinks t
-        confirm-kill-emacs 'y-or-n-p
-        backup-directory-alist '(("." . "~/.emacs.d/backup")))
-  (add-to-list 'exec-path "~/.nix-profile/bin")
-  (add-to-list 'load-path "~/.emacs.d/lisp")
-  (setq tab-always-indent 'complete)
-  (add-to-list 'Info-directory-list (expand-file-name "~/org/info"))
-  (require 'server)
-  (require 'org-man)
-  (unless (server-running-p)
-    (server-start))
+    (global-hl-line-mode t)
+    (global-auto-revert-mode t)
+    (global-prettify-symbols-mode t)
+    (dumb-jump-mode)
+    (setf indent-tabs-mode nil
+          initial-buffer-choice (lambda ()
+                                  (org-agenda nil "a")
+                                  (delete-other-windows))
+          vc-follow-symlinks t
+          confirm-kill-emacs 'y-or-n-p
+          backup-directory-alist '(("." . "~/.emacs.d/backup"))
+          abbrev-file-name "~/org/abbrev_defs")
+    (quietly-read-abbrev-file nil)
+    (add-to-list 'exec-path "~/.nix-profile/bin")
+    (add-to-list 'load-path "~/.emacs.d/lisp")
+    (setq tab-always-indent 'complete)
+    (add-to-list 'Info-directory-list (expand-file-name "~/org/info"))
+    (require 'server)
+    (require 'org-man)
+    (unless (server-running-p)
+      (server-start))
 #+END_SRC
 ** Input Method Stuff
 This sets up japanese input within emacs. You probably don't need this if you have it set up through your OS?
@@ -156,7 +158,10 @@ Now that's loaded so we can start setting some options.
         org-drill-learn-fraction 0.3
         org-drill-add-random-noise-to-intervals-p t
         org-drill-leech-method 'warn
-        org-log-done 'time)
+        org-log-done 'time
+        org-latex-create-formula-image-program 'dvipng)
+  (plist-put org-format-latex-options :scale 2)
+
 #+END_SRC
 ** Configure Text Searching of my Notes
 If you use =org-agenda-text-search-extra-files=, You can use the agenda view search facility to do text searching in org files other than your agenda files. This enables evernote-like search features in Emacs!! I set it to include all org files (recursively) in my =~/org/notes/= directory.
@@ -185,7 +190,7 @@ I have a file of babel functions that I want available in every org file.
 This enables execution of various code blocks
 #+BEGIN_SRC emacs-lisp
   (setf org-ditaa-jar-path "/run/current-system/sw/lib/ditaa.jar"
-	org-confirm-babel-evaluate nil)
+        org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ditaa . t)
@@ -194,7 +199,8 @@ This enables execution of various code blocks
      (racket . t)
      (shell . t)
      (python . t)
-     (lilypond . t)))
+     (lilypond . t)
+     (latex . t)))
   (setq org-babel-racket-command "racket")
 #+END_SRC
 ** Org-capture
@@ -266,6 +272,7 @@ The emacs client command is =emacsclient -e "(start-capture \"t\")"=
            ((org-agenda-category-filter-preset '("+study"))))
           ("w" "Work"
            ((agenda)
+            (todo "BLOCKED" ((org-agenda-overriding-header "Blocked:")))
             (tags-todo "+inbox" ((org-agenda-overriding-header "Inbox:")))
             (todo "REVIEW" ((org-agenda-overriding-header "Code Reviews:")))
             (todo "WAITING" ((org-agenda-overriding-header "Waiting:")))

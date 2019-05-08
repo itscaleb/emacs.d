@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: org-drill-math
+# key: math_
+# --
+#+begin_src latex :results file raw :file $1.png
+\[
+$0
+\]
+#+END_SRC
