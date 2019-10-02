@@ -36,6 +36,7 @@ Gotta turn off tabs, also enable auto-revert-mode so changes to the files outsid
     (add-to-list 'Info-directory-list (expand-file-name "~/org/info"))
     (require 'server)
     (require 'org-man)
+    (pdf-tools-install)
     (unless (server-running-p)
       (server-start))
 #+END_SRC
@@ -201,7 +202,8 @@ This enables execution of various code blocks
      (shell . t)
      (python . t)
      (lilypond . t)
-     (latex . t)))
+     (latex . t)
+     (gnuplot . t)))
   (setq org-babel-racket-command "racket")
 #+END_SRC
 ** Org-capture
@@ -587,7 +589,25 @@ ERC Settings
   (add-hook 'message-mode-hook 'turn-on-orgtbl)
   (add-hook 'message-mode-hook 'turn-on-orgstruct++)
   (add-hook 'sql-interactive-mode-hook (lambda ()
-					 (toggle-truncate-lines t)))
+                                         (toggle-truncate-lines t)))
+  (add-hook
+   'org-mode-hook
+   (lambda ()
+     (defun org-drill-hide-subheadings-if (test)
+       (let ((drill-entry-level (org-current-level))
+             (drill-sections nil))
+         (org-show-subtree)
+         (save-excursion
+           (org-map-entries
+            (lambda ()
+              (when (and (not (org-invisible-p))
+                         (> (org-current-level) drill-entry-level))
+                (when (or (/= (org-current-level) (1+ drill-entry-level))
+                          (funcall test))
+                  (hide-subtree))
+                (push (point) drill-sections)))
+            nil 'tree))
+         (reverse drill-sections)))))
 #+END_SRC
 * Yasnippet
 #+BEGIN_SRC emacs-lisp
