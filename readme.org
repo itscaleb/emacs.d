@@ -103,9 +103,7 @@ This file is where I store words I want added to my dictionary so they aren't ma
 * LilyPond
 #+BEGIN_SRC emacs-lisp
 (autoload 'LilyPond-mode "lilypond-mode")
-(setq auto-mode-alist
-      (cons '("\\.ly$" . LilyPond-mode) auto-mode-alist))
-
+(add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 #+END_SRC
 * Auth Sources
@@ -590,24 +588,6 @@ ERC Settings
   (add-hook 'message-mode-hook 'turn-on-orgstruct++)
   (add-hook 'sql-interactive-mode-hook (lambda ()
                                          (toggle-truncate-lines t)))
-  (add-hook
-   'org-mode-hook
-   (lambda ()
-     (defun org-drill-hide-subheadings-if (test)
-       (let ((drill-entry-level (org-current-level))
-             (drill-sections nil))
-         (org-show-subtree)
-         (save-excursion
-           (org-map-entries
-            (lambda ()
-              (when (and (not (org-invisible-p))
-                         (> (org-current-level) drill-entry-level))
-                (when (or (/= (org-current-level) (1+ drill-entry-level))
-                          (funcall test))
-                  (hide-subtree))
-                (push (point) drill-sections)))
-            nil 'tree))
-         (reverse drill-sections)))))
 #+END_SRC
 * Yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -659,3 +639,8 @@ directory to make multiple eshell windows easier."
               (ibuffer-auto-mode 1)
               (ibuffer-switch-to-saved-filter-groups "default")))
 #+END_SRC
+* Epubs
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(setq nov-text-width 100)
+#+end_src
